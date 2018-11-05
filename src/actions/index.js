@@ -3,20 +3,18 @@ import * as types from "./types";
 export const fetchUser = () => (dispatch, getState, getFirebase) => {
   const firebase = getFirebase();
   firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      //console.log("login");
-      return {
-        type: types.FETCH_USER,
-        user: user
-      };
-    } else {
-      return {
-        type: types.FETCH_USER,
-        user: null
-      };
-    }
+    return user;
   });
 };
+
+export const login = (uid) => ({
+  type: 'LOGIN',
+  user: uid
+});
+
+export const logout = () => ({
+  type: 'LOGOUT'
+});
 
 export const logIn = () => (dispatch, getState, getFirebase) => {
   const firebase = getFirebase();
@@ -25,7 +23,7 @@ export const logIn = () => (dispatch, getState, getFirebase) => {
     .signInWithPopup(provider)
     .then(result => {
       const token = result.credential.accessToken;
-      console.log(token);
+      //console.log(token);
       // user info.
       const user = result.user;
       dispatch({type: types.LOGIN, user: user});
@@ -42,7 +40,7 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
     .signOut()
     .then(() => {
       // Sign-out successful.
-      dispatch({type: types.LOGOUT, user: false});
+      dispatch({type: types.LOGOUT});
     })
     .catch(error => {
       console.log(error);
