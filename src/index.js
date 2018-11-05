@@ -23,25 +23,6 @@ const renderApp = () => {
 }
 
 renderApp();
-
-// firebase.auth().onAuthStateChanged(user => {
-//     if (user) {
-//         console.log('login user id: ', user.uid);
-//         console.log('name: ', user.displayName);
-//         store.dispatch(logIn(user.uid));
-//         store.dispatch(getBooks()).then(() => {
-//             renderApp();
-//             if (history.location.pathname === '/') {
-//                 history.push('/dashboard');
-//             }
-//         });
-//     } else {
-//         console.log('logout');
-//         store.dispatch(logout());
-//         renderApp();
-//         history.push('/');
-//     }
-// });
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA

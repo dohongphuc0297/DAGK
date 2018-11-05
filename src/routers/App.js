@@ -4,7 +4,7 @@ import SignIn from '../components/auth/SignIn';
 import DashBoard from "../components/DashBoard";
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
-import fetchUser from '../actions/index'
+import {fetchUser} from '../actions/index'
 // import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir,
 //   userIsAuthenticated, userIsNotAuthenticated } from '../auth';
 
@@ -13,15 +13,18 @@ import history from '../history';
 //const Protected = userIsAuthenticatedRedir(DashBoard);
 
 class App extends Component {
-  // componentDidMount = () => {
-  //   firebase.auth().onAuthStateChanged(user => {
-  //     this.setState({ user: !!user })
-  //     console.log("user", user)
-  //   })
-  // }
+  componentWillUpdate = (props) => {
+    const user = fetchUser();
+    console.log(user);
+    if(user)
+    {
+      history.push('/dashboard');
+    }else{
+      history.push('/');
+    }
+  }
 
   render() {
-    console.log(this.state);
     return (
       <Router history={history}>
         <Switch>
