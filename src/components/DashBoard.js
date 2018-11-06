@@ -7,7 +7,6 @@ import ChatHistory from './ChatHistory';
 import SendMessage from './SendMessage';
 
 const DashBoard = (props) => {
-    console.log(props);
     return (
         <div>
             <div className="main-message container clearfix">
