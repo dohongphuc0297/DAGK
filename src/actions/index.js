@@ -7,10 +7,16 @@ export const fetchUser = () => (dispatch, getState, getFirebase) => {
   });
 };
 
-export const login = (uid) => ({
-  type: 'LOGIN',
-  user: uid
-});
+export const login = (user) => (dispatch, getState, getFirebase) => {
+  const firebase = getFirebase();
+  const db = firebase.firestore();
+  const usersRef = db.collection('users');
+  usersRef
+    .doc(user.userId)
+    .set({
+      status: true,
+    }, { merge: true });
+};
 
 export const logout = () => ({
   type: 'LOGOUT'
@@ -19,15 +25,21 @@ export const logout = () => ({
 export const logIn = () => (dispatch, getState, getFirebase) => {
   const firebase = getFirebase();
   const provider = new firebase.auth.GoogleAuthProvider();
+  const db = firebase.firestore();
   firebase.auth()
     .signInWithPopup(provider)
     .then(result => {
-      const token = result.credential.accessToken;
-      //console.log(token);
       // user info.
       const user = result.user;
-      dispatch({type: types.LOGIN, user: user});
-      //console.log(user);
+      console.log(user);
+      const usersRef = db.collection('users');
+      usersRef
+        .doc(user.userId)
+        .set({
+          status: true,
+          
+        }, { merge: true });
+      dispatch({ type: types.LOGIN, user: user });
     })
     .catch(error => {
       console.log(error);
@@ -40,7 +52,7 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
     .signOut()
     .then(() => {
       // Sign-out successful.
-      dispatch({type: types.LOGOUT});
+      dispatch({ type: types.LOGOUT });
     })
     .catch(error => {
       console.log(error);

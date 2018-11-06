@@ -4,7 +4,8 @@ import Header from '../components/Header';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
-import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import {login} from '../actions/index';
 
 
 const PrivateRoute = ({
@@ -16,6 +17,7 @@ const PrivateRoute = ({
         <Route {...otherProps} component={(props) => {
             //console.log(auth);
             if (!isEmpty(auth)) {
+                //login(auth);
                 return (
                     <div>
                         <Header />
