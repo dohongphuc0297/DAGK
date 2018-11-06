@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
 import { compose } from 'redux'
-import { firebaseConnect, isLoaded, isEmpty, firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect } from 'react-redux-firebase';
+import { fetchUser } from '../actions/index';
 
 const PeopleList = (props) => {
     let users = null;
@@ -45,8 +45,8 @@ const PeopleList = (props) => {
                 }
             }
             return (
-                <li className="clearfix" key={index}>
-                    <img src={user.avatarUrl} alt="avatar" />
+                <li className="clearfix li-click" key={index} onClick={()=>props.fetchUser(user)}>
+                <img src={user.avatarUrl} alt="avatar" />
                     <div className="about">
                         <div className="name">{user.name}</div>
                         <div className="status">
@@ -71,9 +71,13 @@ const PeopleList = (props) => {
     );
 }
 
+const mapDispatchToProps = (dispatch) => ({
+    fetchUser: (user) => dispatch(fetchUser(user))
+});
+
 export default compose(
     firestoreConnect(['users']),
     connect((state, props) => ({
         users: state.firestore.ordered.users
-    }))
+    }),mapDispatchToProps)
 )(PeopleList)

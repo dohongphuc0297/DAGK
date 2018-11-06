@@ -4,7 +4,7 @@ export default (state = {}, action) => {
     //console.log(action);
     switch (action.type) {
         case FETCH_USER:
-            return action.payload || null;
+            return action.user;
         case LOGIN:
             //console.log(action);
             return {

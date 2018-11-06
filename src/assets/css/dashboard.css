@@ -68,6 +68,9 @@ body {
   li {
       padding-bottom: 20px;
     }
+  .li-click{
+    cursor: pointer;
+  }
   
   
   img {

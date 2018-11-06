@@ -1,10 +1,16 @@
 import * as types from "./types";
 
-export const fetchUser = () => (dispatch, getState, getFirebase) => {
+export const fetchUser = (user) => (dispatch, getState, getFirebase) => {
+  //console.log(user);
   const firebase = getFirebase();
-  firebase.auth().onAuthStateChanged(user => {
-    return user;
-  });
+  const auth = firebase.auth().currentUser;
+  const db = firebase.firestore();
+  const usersRef = db.collection("users");
+  usersRef
+    .doc(auth.uid)
+    .set({
+      currentChatUser: user.id,
+    }, { merge: true });
 };
 
 export const login = (user) => (dispatch, getState, getFirebase) => {
@@ -46,9 +52,7 @@ export const logIn = () => (dispatch, getState, getFirebase) => {
     .then(result => {
       // user info.
       const user = result.user;
-      console.log(user);
       var t = new Date();
-      console.log(t);
       usersRef
         .doc(user.uid)
         .set({
@@ -58,7 +62,6 @@ export const logIn = () => (dispatch, getState, getFirebase) => {
           mail: user.email,
           lastSignIn: t,
         }, { merge: true });
-      dispatch({ type: types.LOGIN, user: user });
     })
     .catch(error => {
       console.log(error);

@@ -5,17 +5,41 @@ import '../assets/css/dashboard.css';
 import PeopleList from './PeopleList';
 import ChatHistory from './ChatHistory';
 import SendMessage from './SendMessage';
+import { compose } from 'redux'
+import { firebaseConnect, isLoaded, isEmpty, firestoreConnect } from 'react-redux-firebase';
 
-const DashBoard = (props) => {
+const DashBoard = ({
+    users,
+    auth }
+) => {
+    console.log(users);
+    let CurChat = null;
+    if (!(users === undefined)) {
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].id === auth.uid) {
+                CurChat = users[i].currentChatUser;
+                break;
+            }
+        }
+        if (!(CurChat === null)) {
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].id === CurChat) {
+                    CurChat = users[i];
+                    break;
+                }
+            }
+        }
+    }
+    console.log(CurChat);
     return (
         <div>
             <div className="main-message container clearfix">
                 <PeopleList />
                 <div className="chat">
                     <div className="chat-header clearfix">
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
+                        <img src={CurChat ? CurChat.avatarUrl : ""} alt="avatar" />
                         <div className="chat-about">
-                            <div className="chat-with">Chat with Vincent Porter</div>
+                            <div className="chat-with">Chat with {CurChat ? CurChat.name : ""}</div>
                             <div className="chat-num-messages">already 1 902 messages</div>
                         </div>
                         <i className="fa fa-star"></i>
@@ -24,38 +48,26 @@ const DashBoard = (props) => {
                     <SendMessage />
                 </div>
             </div>
-
-            {/* <script id="message-template" type="text/x-handlebars-template">
-                <li className="clearfix">
-                    <div className="message-data align-right">
-                        <span className="message-data-time" >{{ time }}, Today</span> &nbsp; &nbsp;
-      <span className="message-data-name" >Olia</span> <i className="fa fa-circle me"></i>
-                    </div>
-                    <div className="message other-message float-right">
-                        {{ messageOutput }}
-                    </div>
-                </li>
-            </script>
-
-            <script id="message-response-template" type="text/x-handlebars-template">
-                <li>
-                    <div className="message-data">
-                        <span className="message-data-name"><i className="fa fa-circle online"></i> Vincent</span>
-                        <span className="message-data-time">{{ time }}, Today</span>
-                    </div>
-                    <div className="message my-message">
-                        {{ response }}
-                    </div>
-                </li>
-            </script> */}
-
         </div>
     );
 }
-const mapStateToProps = (state) => {
-    return ({
-        user: state.user
-    })
-};
+// const mapStateToProps = (state) => {
+//     return {
+//         user: state.user
+//     }
+// };
 
-export default connect(mapStateToProps)(DashBoard);
+//export default connect(mapStateToProps)(DashBoard);
+
+// export default compose(
+//     firebaseConnect(), // withFirebase can also be used
+//     connect(({ firebase: { auth } }) => ({ auth }))
+// )(DashBoard)
+
+export default compose(
+    firestoreConnect(['users']),
+    connect((state, props) => ({
+        users: state.firestore.ordered.users,
+        auth: state.firebase.auth
+    }))
+)(DashBoard)
