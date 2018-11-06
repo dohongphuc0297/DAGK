@@ -17,7 +17,7 @@ const PrivateRoute = ({
         <Route {...otherProps} component={(props) => {
             //console.log(auth);
             if (!isEmpty(auth)) {
-                //login(auth);
+                login(auth);
                 return (
                     <div>
                         <Header />
