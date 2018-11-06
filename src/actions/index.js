@@ -11,7 +11,7 @@ export const login = (user) => (dispatch, getState, getFirebase) => {
   const firebase = getFirebase();
   const db = firebase.firestore();
   const usersRef = db.collection("users");
-  var t = new Date(user.metadata.lastSignInTime);
+  var t = new Date();
   console.log(t);
   usersRef
     .doc(user.uid)
@@ -28,12 +28,12 @@ export const logout = () => (dispatch, getState, getFirebase) => {
   const usersRef = db.collection("users");
   var t = new Date();
   console.log(t);
-  usersRef
-    .doc(user.uid)
-    .set({
-      status: false,
-      lastSignOut: t,
-    }, { merge: true });
+  // usersRef
+  //   .doc(user.uid)
+  //   .set({
+  //     status: false,
+  //     lastSignOut: t,
+  //   }, { merge: true });
 };
 
 export const logIn = () => (dispatch, getState, getFirebase) => {
@@ -47,7 +47,7 @@ export const logIn = () => (dispatch, getState, getFirebase) => {
       // user info.
       const user = result.user;
       console.log(user);
-      var t = new Date(user.metadata.lastSignInTime);
+      var t = new Date();
       console.log(t);
       usersRef
         .doc(user.uid)
@@ -57,7 +57,6 @@ export const logIn = () => (dispatch, getState, getFirebase) => {
           avatarUrl: user.photoURL,
           mail: user.email,
           lastSignIn: t,
-          lastSignOut: t,
         }, { merge: true });
       dispatch({ type: types.LOGIN, user: user });
     })
@@ -72,17 +71,17 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
   const db = firebase.firestore();
   const usersRef = db.collection("users");
   var t = new Date();
-  console.log(t);
-  firebase.auth()
-    .signOut()
-    .then(() => {
-      //Sign-out successful.
-      usersRef
+  console.log(user);
+  usersRef
         .doc(user.uid)
         .set({
           status: false,
           lastSignOut: t,
         }, { merge: true });
+  firebase.auth()
+    .signOut()
+    .then(() => {
+      //Sign-out successful.
     })
     .catch(error => {
       console.log(error);
