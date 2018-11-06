@@ -4,22 +4,31 @@ import thunk from 'redux-thunk';
 import { reactReduxFirebase, getFirebase, firebaseReducer  } from 'react-redux-firebase'
 import firebase from 'firebase'
 import { firebaseConfig } from "../firebase/firebase";
+import { reduxFirestore, firestoreReducer } from 'redux-firestore'
 
 export default () => {
     firebase.initializeApp(firebaseConfig);
 
     // react-redux-firebase options
     const config = {
-        userProfile: 'users', // firebase root where user profiles are stored
-        enableLogging: false, // enable/disable Firebase's database logging
+        userProfile: null, // firebase root where user profiles are stored
+        users: 'users',
+        //enableLogging: false, // enable/disable Firebase's database logging
+        useFirestoreForProfile: true,
+        attachAuthIsReady: true
     }
+
+    firebase.firestore().settings({ timestampsInSnapshots: true });
+
     const createStoreWithFirebase = compose(
         applyMiddleware(thunk.withExtraArgument(getFirebase)),
+        reduxFirestore(firebase),
         reactReduxFirebase(firebase, config)
     );
 
     const rootReducer = combineReducers({
         firebase: firebaseReducer,
+        firestore: firestoreReducer,
         reducers: Reducers
       })
 

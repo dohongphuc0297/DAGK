@@ -15,12 +15,8 @@ const Header = ({logout}) =>{
                     <a className="navbar-brand" href="/">CHAT</a>
                 </div>
                 <div className="collapse navbar-collapse navbar-ex1-collapse">
-                    <ul className="nav navbar-nav">
-                    </ul>
-
                     <ul className="nav navbar-nav navbar-right">
                         <li><button onClick={logout} className="btn btn-default navbar-btn">Sign out</button></li>
-
                     </ul>
                 </div>
             </nav>

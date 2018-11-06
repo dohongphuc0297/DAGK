@@ -42,21 +42,6 @@ padding : 50px 0;
   margin-left: -1.25rem!important;
 }
 
-.navbar-default {
-  color: white;
-  background-color: #181414!important;
-  border-color: none!important;
-  margin: 0!important;
-  border: none!important;
-  border-radius: 0px!important;
-  display: block!important;
-}
-
-.navbar-default .navbar-brand {
-  color: rgb(255, 255, 255)!important;
-  font-size: 30px!important;
-}
-
 .btn-wraper{
   text-align: center;
 }
