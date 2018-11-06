@@ -13,6 +13,7 @@ export default () => {
     const config = {
         userProfile: null, // firebase root where user profiles are stored
         users: 'users',
+        messages: 'messages',
         //enableLogging: false, // enable/disable Firebase's database logging
         useFirestoreForProfile: true,
         attachAuthIsReady: true

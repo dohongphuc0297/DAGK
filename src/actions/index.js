@@ -90,3 +90,19 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
       console.log(error);
     });
 };
+
+export const sendMessage = (people, message) => (dispatch, getState, getFirebase) => {
+  console.log(people);
+  console.log(message);
+  // const firebase = getFirebase();
+  // const auth = firebase.auth().currentUser;
+  // const db = firebase.firestore();
+  // const usersRef = db.collection("messages");
+  // const t = new Date();
+  // usersRef
+  //   .doc(auth.uid+" "+people.id)
+  //   .set({
+  //     content: message,
+  //     date: t,
+  //   }, { merge: true });
+};

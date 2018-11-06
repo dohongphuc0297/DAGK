@@ -15,14 +15,14 @@ const DashBoard = ({
     console.log(users);
     let CurChat = null;
     if (!(users === undefined)) {
-        for (var i = 0; i < users.length; i++) {
+        for (let i = 0; i < users.length; i++) {
             if (users[i].id === auth.uid) {
                 CurChat = users[i].currentChatUser;
                 break;
             }
         }
         if (!(CurChat === null)) {
-            for (var i = 0; i < users.length; i++) {
+            for (let i = 0; i < users.length; i++) {
                 if (users[i].id === CurChat) {
                     CurChat = users[i];
                     break;
@@ -45,7 +45,7 @@ const DashBoard = ({
                         <i className="fa fa-star"></i>
                     </div>
                     <ChatHistory />
-                    <SendMessage />
+                    <SendMessage data={{auth, CurChat}} />
                 </div>
             </div>
         </div>
