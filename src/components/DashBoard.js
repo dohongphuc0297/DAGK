@@ -44,7 +44,7 @@ const DashBoard = ({
                         </div>
                         <i className="fa fa-star"></i>
                     </div>
-                    <ChatHistory />
+                    <ChatHistory data={{auth, CurChat}} />
                     <SendMessage data={{auth, CurChat}} />
                 </div>
             </div>

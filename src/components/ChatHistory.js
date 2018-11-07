@@ -1,73 +1,105 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux'
+import { firestoreConnect } from 'react-redux-firebase';
+import $ from 'jquery';
 
-const ChatHistory = (props) => {
-    return (
-        <div className="chat-history">
-            <ul className="ul-data">
-                <li className="clearfix">
-                    <div className="message-data align-right">
-                        <span className="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
-              <span className="message-data-name" >Olia</span> <i className="fa fa-circle me"></i>
+class ChatHistory extends React.Component {
 
-                    </div>
-                    <div className="message other-message float-right">
-                        Hi Vincent, how are you? How is the project coming along?
+    getTimeFormat(time) {
+        if (time.getHours() >= 12) {
+            return ((time.getHours() - 12) >= 10 ? "" : "0") + (time.getHours() - 12) + ":" + (time.getMinutes() >= 10 ? "" : "0") + time.getMinutes() + " PM";
+        } else {
+            return (time.getHours() >= 10 ? "" : "0") + time.getHours() + ":" + (time.getMinutes() >= 10 ? "" : "0") + time.getMinutes() + " AM";
+        }
+    }
+
+    getTime(time) {
+        const today = new Date();
+        if (time.getFullYear() === today.getFullYear() && time.getMonth() === today.getMonth() && time.getDate() === today.getDate()) {
+            return this.getTimeFormat(time) + ", Today";
+        } else {
+            return this.getTimeFormat(time) + ", " + time.getDate() + "/" + (time.getMonth() + 1) + "/" + time.getFullYear();
+        }
+    }
+
+    componentWillMount(){
+        
+        
+    }
+
+    render() {
+        //console.log(this.props);
+        
+        var message = null;
+        if (!(this.props.messages === undefined)) {
+            if (!(this.props.messages.length === 0)) {
+                if(!(this.props.messages[0].contents === undefined)){
+                    message = this.props.messages[0].contents.map((message, index) => {
+                        const time = message.date.toDate();
+                        let t = null;
+                        t = this.getTime(time);
+    
+                        if (message.sender === this.props.data.auth.uid) {
+                            return (
+                                <li className="clearfix" key={index}>
+                                    <div className="message-data align-right">
+                                        <span className="message-data-time" >{t}</span> &nbsp; &nbsp;
+                                        <span className="message-data-name" >{this.props.data.auth.displayName}</span> <i className="fa fa-circle me"></i>
+    
+                                    </div>
+                                    <div className="message my-message float-right">
+                                        {message.content}
+                                    </div>
+                                </li>
+                            );
+                        } else {
+                            return (
+                                <li>
+                                    <div className="message-data" key={index}>
+                                        <span className="message-data-name"><i className="fa fa-circle online"></i> {this.props.data.CurChat.name}</span>
+                                        <span className="message-data-time">{t}</span>
+                                    </div>
+                                    <div className="message other-message">
+                                        {message.content}
+                                    </div>
+                                </li>
+                            );
+                        }
+                    });
+                    
+                }
+            }
+        }
+        $('#chatHistory').scrollTop(100);
+        console.log("scroll");
+        return (
+            <div className="chat-history" id="chatHistory">
+                <ul className="ul-data">
+                    {message}
+                </ul>
             </div>
-                </li>
 
-                <li>
-                    <div className="message-data">
-                        <span className="message-data-name"><i className="fa fa-circle online"></i> Vincent</span>
-                        <span className="message-data-time">10:12 AM, Today</span>
-                    </div>
-                    <div className="message my-message">
-                        Are we meeting today? Project has been already finished and I have results to show you.
-            </div>
-                </li>
-
-                <li className="clearfix">
-                    <div className="message-data align-right">
-                        <span className="message-data-time" >10:14 AM, Today</span> &nbsp; &nbsp;
-              <span className="message-data-name" >Olia</span> <i className="fa fa-circle me"></i>
-
-                    </div>
-                    <div className="message other-message float-right">
-                        Well I am not sure. The rest of the team is not here yet. Maybe in an hour or so? Have you faced any problems at the last phase of the project?
-            </div>
-                </li>
-
-                <li>
-                    <div className="message-data">
-                        <span className="message-data-name"><i className="fa fa-circle online"></i> Vincent</span>
-                        <span className="message-data-time">10:20 AM, Today</span>
-                    </div>
-                    <div className="message my-message">
-                        Actually everything was fine. I'm very excited to show this to our team.
-            </div>
-                </li>
-
-                <li>
-                    <div className="message-data">
-                        <span className="message-data-name"><i className="fa fa-circle online"></i> Vincent</span>
-                        <span className="message-data-time">10:31 AM, Today</span>
-                    </div>
-                    <i className="fa fa-circle online"></i>
-                    <i className="fa fa-circle online" style={{ color: "#AED2A6" }}></i>
-                    <i className="fa fa-circle online" style={{ color: "#DAE9DA" }}></i>
-                </li>
-
-            </ul>
-
-        </div>
-
-    );
+        );
+    }
 }
 
-const mapStateToProps = (state) => {
-    return ({
-        user: state.user
+export default compose(
+    firestoreConnect((props) => {
+        let id = null;
+        if (!(props.data.CurChat === null)) {
+            if (props.data.auth.uid >= props.data.CurChat.id) {
+                id = props.data.auth.uid + props.data.CurChat.id;
+            } else {
+                id = props.data.CurChat.id + props.data.auth.uid;
+            }
+        }
+        return [{ collection: 'messages', doc: id }
+        ]
+    }),
+    connect(({ firestore: { ordered } }, props) => {
+        return ({
+            messages: ordered.messages
+        })
     })
-};
-
-export default connect(mapStateToProps)(ChatHistory);
+)(ChatHistory)
