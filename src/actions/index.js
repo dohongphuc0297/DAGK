@@ -106,13 +106,22 @@ export const sendMessage = (people, message) => (dispatch, getState, getFirebase
     id = people.id + auth.uid;
   }
   const usersRef = db.collection("messages").doc(id);
+  usersRef
+    .set({
+      owners: [auth.uid, people.id],
+    }, { merge: true });
   db.runTransaction(function (transaction) {
     return transaction.get(usersRef).then(function (sfDoc) {
       if (!sfDoc.exists) {
         throw "Document does not exist!";
       }
 
-      var data = sfDoc.data().contents.concat([{ sender: auth.uid, content: message, date: t }]);
+      var data = sfDoc.data().contents;
+      if(!(data === undefined)){
+        data = data.concat([{ sender: auth.uid, content: message, date: t }]);
+      }else{
+        data = [{ sender: auth.uid, content: message, date: t }];
+      }
       //console.log(data);
       transaction.set(usersRef,{
         owners: [auth.uid, people.id],
@@ -124,11 +133,4 @@ export const sendMessage = (people, message) => (dispatch, getState, getFirebase
   }).catch(function (error) {
     console.log("Transaction failed: ", error);
   });
-
-
-  usersRef
-    .set({
-      owners: [auth.uid, people.id],
-      contents: [{ sender: auth.uid, content: message, date: t }],
-    }, { merge: true });
 };
