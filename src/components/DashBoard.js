@@ -12,7 +12,7 @@ const DashBoard = ({
     users,
     auth }
 ) => {
-    console.log(users);
+    //console.log(users);
     let CurChat = null;
     if (!(users === undefined)) {
         for (let i = 0; i < users.length; i++) {
@@ -30,9 +30,9 @@ const DashBoard = ({
             }
         }
     }
-    console.log(CurChat);
+    //console.log(CurChat);
     return (
-        <div>
+        <div className="login-block dashboard">
             <div className="main-message container clearfix">
                 <PeopleList />
                 <div className="chat">

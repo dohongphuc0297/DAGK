@@ -20,7 +20,7 @@ const PrivateRoute = ({
                 login(auth);
                 return (
                     <div>
-                        <Header />
+                        <Header {...auth} />
                         <Component {...props} />
                     </div>
                 );

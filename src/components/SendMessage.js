@@ -7,10 +7,7 @@ const SendMessage = (props) => {
     console.log(props);
     return (
         <div className="chat-message clearfix">
-            <textarea name="message-to-send" ref={node => input = node} placeholder="Type your message" rows="3"></textarea>
-
-            <i className="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-        <i className="fa fa-file-image-o"></i>
+            <textarea name="message-to-send" ref={node => input = node} placeholder="Type your message" rows="1"></textarea>
             <button onClick={() => {
                 if (!input.value.trim()) {
                     return
