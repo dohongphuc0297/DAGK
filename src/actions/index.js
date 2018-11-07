@@ -124,7 +124,6 @@ export const sendMessage = (people, message) => (dispatch, getState, getFirebase
       }
       //console.log(data);
       transaction.set(usersRef,{
-        owners: [auth.uid, people.id],
         contents: data,
       }, { merge: true });
     });
