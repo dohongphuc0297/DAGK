@@ -4,7 +4,7 @@ import { sendMessage } from "../actions/index";
 
 const SendMessage = (props) => {
     let input
-    console.log(props);
+    //console.log(props);
     return (
         <div className="chat-message clearfix">
             <textarea name="message-to-send" ref={node => input = node} placeholder="Type your message" rows="1"></textarea>

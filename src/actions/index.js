@@ -76,11 +76,11 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
   var t = new Date();
   console.log(user);
   usersRef
-        .doc(user.uid)
-        .set({
-          status: false,
-          lastSignOut: t,
-        }, { merge: true });
+    .doc(user.uid)
+    .set({
+      status: false,
+      lastSignOut: t,
+    }, { merge: true });
   firebase.auth()
     .signOut()
     .then(() => {
@@ -92,17 +92,43 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
 };
 
 export const sendMessage = (people, message) => (dispatch, getState, getFirebase) => {
-  console.log(people);
-  console.log(message);
-  // const firebase = getFirebase();
-  // const auth = firebase.auth().currentUser;
-  // const db = firebase.firestore();
-  // const usersRef = db.collection("messages");
-  // const t = new Date();
-  // usersRef
-  //   .doc(auth.uid+" "+people.id)
-  //   .set({
-  //     content: message,
-  //     date: t,
-  //   }, { merge: true });
+  //console.log(people);
+  //console.log(message);
+  const firebase = getFirebase();
+  const auth = firebase.auth().currentUser;
+  const db = firebase.firestore();
+
+  const t = new Date();
+  let id = null;
+  if (auth.uid >= people.id) {
+    id = auth.uid + people.id;
+  } else {
+    id = people.id + auth.uid;
+  }
+  const usersRef = db.collection("messages").doc(id);
+  db.runTransaction(function (transaction) {
+    return transaction.get(usersRef).then(function (sfDoc) {
+      if (!sfDoc.exists) {
+        throw "Document does not exist!";
+      }
+
+      var data = sfDoc.data().contents.concat([{ sender: auth.uid, content: message, date: t }]);
+      //console.log(data);
+      transaction.set(usersRef,{
+        owners: [auth.uid, people.id],
+        contents: data,
+      }, { merge: true });
+    });
+  }).then(function () {
+    //console.log("Transaction successfully committed!");
+  }).catch(function (error) {
+    console.log("Transaction failed: ", error);
+  });
+
+
+  usersRef
+    .set({
+      owners: [auth.uid, people.id],
+      contents: [{ sender: auth.uid, content: message, date: t }],
+    }, { merge: true });
 };
