@@ -14,14 +14,6 @@ import history from '../history';
 
 class App extends Component {
   componentWillUpdate = (props) => {
-    const user = fetchUser();
-    console.log(user);
-    if(user)
-    {
-      history.push('/dashboard');
-    }else{
-      history.push('/');
-    }
   }
 
   render() {
