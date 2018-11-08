@@ -28,7 +28,6 @@ class ChatHistory extends React.Component {
             if (!(this.props.messages.length === 0)) {
                 if (!(this.props.messages[0].contents === undefined)) {
                     $('#chatHistory').scrollTop(91 * this.props.messages[0].contents.length);
-                    console.log(this.props.messages[0].contents.length);
                 }
             }
         }

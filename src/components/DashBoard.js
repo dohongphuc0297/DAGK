@@ -34,7 +34,7 @@ const DashBoard = ({
     return (
         <div className="login-block dashboard">
             <div className="main-message container clearfix">
-                <PeopleList />
+                <PeopleList data={{CurChat}} />
                 <div className="chat">
                     <div className="chat-header clearfix">
                         <img src={CurChat ? CurChat.avatarUrl : ""} alt="avatar" />

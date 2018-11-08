@@ -7,7 +7,11 @@ import { fetchUser } from '../actions/index';
 const PeopleList = (props) => {
     let users = null;
     if (!(props.users === undefined)) {
-        users = props.users.map((user, index) => {
+        users = props.users.sort((a, b) =>{
+            if(a.id === props.data.CurChat.id) return -1;
+            if(b.id === props.data.CurChat.id) return 1;
+            return 0;
+        }).map((user, index) => {
             const time = new Date();
             const timeSignOut = !(user.lastSignOut === undefined) ? user.lastSignOut.toDate() : null;
             const status = user.status ? "online" : "offline ";
@@ -57,6 +61,7 @@ const PeopleList = (props) => {
             );
         });
     }
+    console.log(users);
     return (
         <div className="people-list" id="people-list">
             <div className="search">
