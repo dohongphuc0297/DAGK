@@ -23,30 +23,34 @@ class ChatHistory extends React.Component {
         }
     }
 
-    componentWillMount(){
-        
-        
+    componentDidUpdate() {
+        if (!(this.props.messages === undefined)) {
+            if (!(this.props.messages.length === 0)) {
+                if (!(this.props.messages[0].contents === undefined)) {
+                    $('#chatHistory').scrollTop(91 * this.props.messages[0].contents.length);
+                    console.log(this.props.messages[0].contents.length);
+                }
+            }
+        }
     }
 
     render() {
         //console.log(this.props);
-        
         var message = null;
         if (!(this.props.messages === undefined)) {
             if (!(this.props.messages.length === 0)) {
-                if(!(this.props.messages[0].contents === undefined)){
+                if (!(this.props.messages[0].contents === undefined)) {
                     message = this.props.messages[0].contents.map((message, index) => {
                         const time = message.date.toDate();
                         let t = null;
                         t = this.getTime(time);
-    
+
                         if (message.sender === this.props.data.auth.uid) {
                             return (
                                 <li className="clearfix" key={index}>
                                     <div className="message-data align-right">
                                         <span className="message-data-time" >{t}</span> &nbsp; &nbsp;
                                         <span className="message-data-name" >{this.props.data.auth.displayName}</span> <i className="fa fa-circle me"></i>
-    
                                     </div>
                                     <div className="message my-message float-right">
                                         {message.content}
@@ -67,12 +71,9 @@ class ChatHistory extends React.Component {
                             );
                         }
                     });
-                    
                 }
             }
         }
-        $('#chatHistory').scrollTop(100);
-        console.log("scroll");
         return (
             <div className="chat-history" id="chatHistory">
                 <ul className="ul-data">
