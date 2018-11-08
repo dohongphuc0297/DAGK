@@ -4,7 +4,7 @@ import SignIn from '../components/auth/SignIn';
 import DashBoard from "../components/DashBoard";
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
-import {fetchUser} from '../actions/index'
+//import {fetchUser} from '../actions/index'
 // import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir,
 //   userIsAuthenticated, userIsNotAuthenticated } from '../auth';
 

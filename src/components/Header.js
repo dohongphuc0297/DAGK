@@ -13,11 +13,11 @@ const Header = (props) =>{
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <a className="navbar-brand" href="#">CHAT WITH FIREBASE</a>
+                    <a className="navbar-brand" href="/dashboard">CHAT WITH FIREBASE</a>
                 </div>
                 <div className="collapse navbar-collapse navbar-ex1-collapse">
                     <ul className="nav navbar-nav navbar-right">
-                        <li><a className="auth" href="#"><img src={props.photoURL} alt=""></img>{props.displayName}</a></li>
+                        <li><a className="auth" href="/dashboard"><img src={props.photoURL} alt=""></img>{props.displayName}</a></li>
                         <li><button onClick={props.logout} className="btn btn-default navbar-btn">Sign out</button></li>
                     </ul>
                 </div>

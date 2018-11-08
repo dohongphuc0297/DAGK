@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
-import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { firebaseConnect, isEmpty } from 'react-redux-firebase';
 import {login} from '../actions/index';
 
 

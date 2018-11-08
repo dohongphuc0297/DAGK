@@ -1,4 +1,4 @@
-import * as types from "./types";
+//import * as types from "./types";
 
 export const fetchUser = (user) => (dispatch, getState, getFirebase) => {
   //console.log(user);
@@ -28,12 +28,12 @@ export const login = (user) => (dispatch, getState, getFirebase) => {
 };
 
 export const logout = () => (dispatch, getState, getFirebase) => {
-  const firebase = getFirebase();
-  const user = firebase.auth().currentUser;
-  const db = firebase.firestore();
-  const usersRef = db.collection("users");
-  var t = new Date();
-  console.log(t);
+  // const firebase = getFirebase();
+  // const user = firebase.auth().currentUser;
+  // const db = firebase.firestore();
+  // const usersRef = db.collection("users");
+  // var t = new Date();
+  // console.log(t);
   // usersRef
   //   .doc(user.uid)
   //   .set({

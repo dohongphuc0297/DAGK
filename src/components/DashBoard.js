@@ -6,7 +6,7 @@ import PeopleList from './PeopleList';
 import ChatHistory from './ChatHistory';
 import SendMessage from './SendMessage';
 import { compose } from 'redux'
-import { firebaseConnect, isLoaded, isEmpty, firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect } from 'react-redux-firebase';
 
 const DashBoard = ({
     users,

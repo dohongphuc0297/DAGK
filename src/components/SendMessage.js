@@ -1,13 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { sendMessage } from "../actions/index";
+import $ from 'jquery';
 
 const SendMessage = (props) => {
     let input
     //console.log(props);
+    // event key press enter and shift+enter
+    $('#textBox').on('keypress', function (e) {
+        if(e.key === 'Enter'){
+            if(!e.shiftKey){
+                e.preventDefault();
+                $('#btnSend').trigger('click');
+            }
+        }
+  });
     return (
         <div className="chat-message clearfix">
-            <textarea name="message-to-send" ref={node => input = node} placeholder="Type your message" rows="1"></textarea>
+            <textarea id="textBox" name="message-to-send" ref={node => input = node} placeholder="Type your message" rows="1"></textarea>
             <button onClick={() => {
                 if (!input.value.trim()) {
                     return
@@ -15,7 +25,7 @@ const SendMessage = (props) => {
                 props.send(props.data.CurChat, input.value);
                 input.value = '';
             }}
-                className="btn-send">Send</button>
+                className="btn-send" id="btnSend">Send</button>
         </div>
     );
 }
