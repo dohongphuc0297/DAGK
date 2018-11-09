@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import $ from 'jquery';
+import { scroll, addMessages } from "../actions/index";
 
 class ChatHistory extends React.Component {
 
@@ -23,56 +24,77 @@ class ChatHistory extends React.Component {
         }
     }
 
-    componentDidUpdate() {
+    componentDidMount(){
+        $("#chatHistory").scroll(function() {
+            if($(this).scrollTop() === 0) {
+                // page++;
+                // isScrolled = true;
+                // console.log(page);
+            }
+        });
+        //this.props.scroll();
+        //this.forceUpdate();
         if (!(this.props.messages === undefined)) {
-            if (!(this.props.messages.length === 0)) {
-                if (!(this.props.messages[0].contents === undefined)) {
-                    $('#chatHistory').scrollTop(91 * this.props.messages[0].contents.length);
-                }
+            if (!(this.props.messages.contents === undefined)) {
+                
+                this.props.addMessages(this.props.message);
+            }
+        }
+    }
+
+    componentDidUpdate() {
+        // if(isScrolled){
+        //     isScrolled = false;
+        //     return;
+        // }
+        if (!(this.props.messages === undefined)) {
+            if (!(this.props.messages.contents === undefined)) {
+                $('#chatHistory').scrollTop(91 * this.props.messages.contents.length);
             }
         }
     }
 
     render() {
-        //console.log(this.props);
         var message = null;
         if (!(this.props.messages === undefined)) {
-            if (!(this.props.messages.length === 0)) {
-                if (!(this.props.messages[0].contents === undefined)) {
-                    message = this.props.messages[0].contents.map((message, index) => {
-                        const time = message.date.toDate();
-                        let t = null;
-                        t = this.getTime(time);
+            if (!(this.props.messages.contents === undefined)) {
+                //if(isScrolled) this.setState({page: this.state.page + 1});
+                var messages = this.props.messages.contents;
+                //console.log(messages);
+                message = messages.map((message, index) => {
+                    const time = message.date.toDate();
+                    let t = null;
+                    t = this.getTime(time);
 
-                        if (message.sender === this.props.data.auth.uid) {
-                            return (
-                                <li className="clearfix" key={index}>
-                                    <div className="message-data align-right">
-                                        <span className="message-data-time" >{t}</span> &nbsp; &nbsp;
+                    if (message.sender === this.props.data.auth.uid) {
+                        return (
+                            <li className="clearfix" key={index}>
+                                <div className="message-data align-right">
+                                    <span className="message-data-time" >{t}</span> &nbsp; &nbsp;
                                         <span className="message-data-name" >{this.props.data.auth.displayName}</span> <i className="fa fa-circle me"></i>
-                                    </div>
-                                    <div className="message my-message float-right">
-                                        {message.content}
-                                    </div>
-                                </li>
-                            );
-                        } else {
-                            return (
-                                <li>
-                                    <div className="message-data" key={index}>
-                                        <span className="message-data-name"><i className="fa fa-circle online"></i> {this.props.data.CurChat.name}</span>
-                                        <span className="message-data-time">{t}</span>
-                                    </div>
-                                    <div className="message other-message">
-                                        {message.content}
-                                    </div>
-                                </li>
-                            );
-                        }
-                    });
-                }
+                                </div>
+                                <div className="message my-message float-right">
+                                    {message.content}
+                                </div>
+                            </li>
+                        );
+                    } else {
+                        return (
+                            <li>
+                                <div className="message-data" key={index}>
+                                    <span className="message-data-name"><i className="fa fa-circle online"></i> {this.props.data.CurChat ? this.props.data.CurChat.name : ""}</span>
+                                    <span className="message-data-time">{t}</span>
+                                </div>
+                                <div className="message other-message">
+                                    {message.content}
+                                </div>
+                            </li>
+                        );
+                    }
+                });
             }
         }
+        
         return (
             <div className="chat-history" id="chatHistory">
                 <ul className="ul-data">
@@ -84,10 +106,15 @@ class ChatHistory extends React.Component {
     }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+    scroll: () => dispatch(scroll()),
+    addMessages: (messages) => dispatch(addMessages(messages))
+});
+
 export default compose(
     firestoreConnect((props) => {
         let id = null;
-        if (!(props.data.CurChat === null)) {
+        if (!(props.data.CurChat === null)&& !(props.data.CurChat === undefined)) {
             if (props.data.auth.uid >= props.data.CurChat.id) {
                 id = props.data.auth.uid + props.data.CurChat.id;
             } else {
@@ -99,7 +126,7 @@ export default compose(
     }),
     connect(({ firestore: { ordered } }, props) => {
         return ({
-            messages: ordered.messages
+            messages: ordered.messages && ordered.messages[0]
         })
-    })
+    }, mapDispatchToProps)
 )(ChatHistory)

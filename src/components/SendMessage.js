@@ -30,8 +30,12 @@ const SendMessage = (props) => {
     );
 }
 
+const mapStateToProps = state => {
+    return { CurChat: state.reducers.auth.curChat }
+  }
+
 const mapDispatchToProps = (dispatch) => ({
     send: (people, message) => dispatch(sendMessage(people, message))
 });
 
-export default connect(undefined, mapDispatchToProps)(SendMessage);
+export default connect(mapStateToProps, mapDispatchToProps)(SendMessage);
