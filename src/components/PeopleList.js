@@ -3,8 +3,28 @@ import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import { addCurChat } from '../actions/index';
+import $ from 'jquery';
+//var List = require("collections/list");
 
 class PeopleList extends React.Component {
+
+    InputListener(){
+        var input, filter, ul, li, a, i;
+        input = $('#searchInput').val();
+        if(input === undefined) return;
+        filter = input.toUpperCase();
+        ul = document.getElementById("ul-list");
+        li = ul.getElementsByTagName('li');
+        //console.log(li);
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
 
     render() {
         let users = null;
@@ -85,7 +105,7 @@ class PeopleList extends React.Component {
                         <li className="clearfix li-click" key={index} onClick={() => this.props.addCurChat(user)}>
                             <img src={user.avatarUrl} alt="avatar" />
                             <div className="about">
-                                <div className="name">{user.name} {IsStar ? <i className="fa fa-star" id="btn-star" style={{ color: "rgb(255, 230, 0)" }} /> : null}</div>
+                                <div className="name"><a>{user.name}</a> {IsStar ? <i className="fa fa-star" id="btn-star" style={{ color: "rgb(255, 230, 0)" }} /> : null}</div>
                                 <div className="status">
                                     <i className={"fa fa-circle " + status}></i> {status} {t ? t + " " + unit + " ago" : null}
                                 </div>
@@ -97,10 +117,10 @@ class PeopleList extends React.Component {
         return (
             <div className="people-list" id="people-list">
                 <div className="search">
-                    <input type="text" placeholder="search" />
+                    <input type="text" id="searchInput" onKeyUp={()=>this.InputListener()} placeholder="search" />
                     <i className="fa fa-search"></i>
                 </div>
-                <ul className="ul-data list">
+                <ul className="ul-data list" id="ul-list">
                     {users ? users : null}
                 </ul>
             </div>

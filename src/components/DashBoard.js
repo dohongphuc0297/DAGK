@@ -8,7 +8,6 @@ import SendMessage from './SendMessage';
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import { login, AddCurChat, starUser } from '../actions/index';
-//import $ from 'jquery';
 
 class DashBoard extends React.Component {
     componentWillMount() {
@@ -80,17 +79,6 @@ class DashBoard extends React.Component {
                                     <div className="chat-num-messages">{!(this.props.messages === undefined) ? "already " + this.props.messages.contents.length + " messages" : ""}</div>
                                 </div>
                                 <i className="fa fa-star btn-star" id="btn-star" style={isStared ? { color: "rgb(255, 230, 0)" } : {}} onClick={() => {
-
-                                    // if(isStared){
-                                    //     console.log("change color none !!!!!");
-                                    //     $('#btn-star').css("color", "#D8DADF");
-                                    //     isStared = false;
-                                    // }else{
-                                    //     console.log("change color yellow !!!!!");
-                                    //     $('#btn-star').css("color", "rgb(255, 230, 0)");
-                                    //     isStared = true;
-                                    // }
-
                                     return this.props.starUser(CurChat);
                                 }}></i>
                             </div> : null}
