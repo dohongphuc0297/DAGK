@@ -80,8 +80,8 @@ class ChatHistory extends React.Component {
                         );
                     } else {
                         return (
-                            <li>
-                                <div className="message-data" key={index}>
+                            <li key={index}>
+                                <div className="message-data">
                                     <span className="message-data-name"><i className="fa fa-circle online"></i> {this.props.data.CurChat ? this.props.data.CurChat.name : ""}</span>
                                     <span className="message-data-time">{t}</span>
                                 </div>

@@ -17,7 +17,7 @@ export const addCurChat = (user) => (dispatch, getState, getFirebase) => {
     .set({
       currentChatUser: user.id,
     }, { merge: true });
-    refreshMessages();
+  refreshMessages();
   return dispatch({ type: types.ADD_CURCHAT, payload: user });
 };
 
@@ -103,8 +103,6 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
 export const sendMessage = (people, message) => (dispatch, getState, getFirebase) => {
   if (people === undefined || message === undefined || people === null || message === null) return;
 
-  console.log(people);
-  console.log(message);
   const firebase = getFirebase();
   const auth = firebase.auth().currentUser;
   const db = firebase.firestore();
@@ -146,12 +144,60 @@ export const sendMessage = (people, message) => (dispatch, getState, getFirebase
   });
 };
 
+export const starUser = (user) => (dispatch, getState, getFirebase) => {
+  if (user === null || user === undefined) return;
+  const firebase = getFirebase();
+  const auth = firebase.auth().currentUser;
+  const db = firebase.firestore();
+  const usersRef = db.collection("users").doc(auth.uid);
+
+  usersRef.get().then(function (doc) {
+    if (doc.exists) {
+      //get data
+      var data = doc.data().stared;
+
+      if (!(data === undefined)) {
+        //check if exist
+        var index = data.indexOf(user.id);
+        if (index >= 0) {
+          //delete it if exist
+          //data.splice(index, 1);
+          usersRef
+            .update({
+              stared: firebase.firestore.FieldValue.arrayRemove(user.id),
+            });
+        } else {
+          //push it in
+          //data = data.concat([ user.id ]);
+          usersRef
+            .update({
+              stared: firebase.firestore.FieldValue.arrayUnion(user.id),
+            });
+        }
+      } else {
+        data = [user.id];
+        usersRef
+          .set({
+            stared: data,
+          }, { merge: true });
+      }
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }).catch(function (error) {
+    console.log("Error getting document:", error);
+  });
+
+  //return dispatch({type: types.STAR_USER});
+};
+
 export const addMessages = (messages) => (dispatch, getState, getFirebase) => {
-  return dispatch({type: types.ADD_MESSAGES, payload: messages});
+  return dispatch({ type: types.ADD_MESSAGES, payload: messages });
 };
 
 export const refreshMessages = () => (dispatch, getState, getFirebase) => {
-  return dispatch({type: types.REFRESH_MESSAGES});
+  return dispatch({ type: types.REFRESH_MESSAGES });
 };
 
 export const scroll = () => (dispatch, getState, getFirebase) => {

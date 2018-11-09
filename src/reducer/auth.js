@@ -1,34 +1,37 @@
-import { ADD_CURCHAT, LOGIN, LOGOUT, ADD_MESSAGES } from "../actions/types";
+import * as types from "../actions/types";
 
 const INITIAL_STATE = {
     auth: null,
     messages: [],
     users: [],
     curChat: null,
-    page: 1
+    page: 1,
+    isChange: false
 };
 
 export default (state = INITIAL_STATE, action) => {
     //console.log(action);
     switch (action.type) {
-        case ADD_CURCHAT:
+        case types.ADD_CURCHAT:
             return {
                 ...state,
                 curChat: action.payload
             };
-        case ADD_MESSAGES:
+        case types.ADD_MESSAGES:
             return {
                 ...state,
                 messages: state.messages.concat(action.payload)
             };
-        case LOGIN:
+        case types.LOGIN:
             //console.log(action);
             return {
                 ...state,
                 auth: action.payload
             };
-        case LOGOUT:
-            return {};
+        case types.LOGOUT:
+            return INITIAL_STATE;
+        case types.STAR_USER:
+            return state;
         default:
             return state;
     }

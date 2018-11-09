@@ -114,7 +114,17 @@ body {
   .li-click{
     cursor: pointer;
   }
-  
+  .li-click .name{
+    display: flex;
+    vertical-align: middle;
+    margin-top: 7px;
+    height: 32px;
+  }
+  .li-click .name i{
+    position: relative;
+    left: 6px;
+    bottom: 11px;
+  }
   
   .main-message img {
     height: 50px;
@@ -125,15 +135,13 @@ body {
   
   .about {
     float: left;
-    margin-top: 8px;
-  }
-  
-  .about {
     padding-left: 8px;
   }
   
   .status {
     color: #92959E;
+    position: relative;
+    bottom: 9px;
   }
   
 
@@ -311,4 +319,9 @@ body {
 	clear: both;
 	height: 0;
 }
+
+.btn-star{
+  cursor: pointer;
+}
+
 
