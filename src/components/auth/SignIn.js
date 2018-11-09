@@ -30,26 +30,8 @@ const Login = ({ login }) => {
                                         <img className="d-block img-fluid" src="https://static.pexels.com/photos/33972/pexels-photo.jpg" alt="First slide"></img>
                                         <div className="carousel-caption d-none d-md-block">
                                             <div className="banner-text">
-                                                <h2>This is Heaven</h2>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="carousel-item">
-                                        <img className="d-block img-fluid" src="https://images.pexels.com/photos/7097/people-coffee-tea-meeting.jpg" alt="First slide"></img>
-                                        <div className="carousel-caption d-none d-md-block">
-                                            <div className="banner-text">
-                                                <h2>This is Heaven</h2>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="carousel-item">
-                                        <img className="d-block img-fluid" src="https://images.pexels.com/photos/872957/pexels-photo-872957.jpeg" alt="First slide"></img>
-                                        <div className="carousel-caption d-none d-md-block">
-                                            <div className="banner-text">
-                                                <h2>This is Heaven</h2>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                                                <h2>Chat App with firebase</h2>
+                                                <p>Chat with your friends just by login wth Goole</p>
                                             </div>
                                         </div>
                                     </div>

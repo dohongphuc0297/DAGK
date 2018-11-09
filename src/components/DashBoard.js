@@ -23,11 +23,13 @@ class DashBoard extends React.Component {
     componentWillUpdate() {
 
     }
+
     render() {
         //console.log(this.props);
         let CurChat;
-        let isStared = false;
         let StarList;
+        let isStared = false;
+
         if (!(this.props.users === undefined)) {
             let index = null;
             for (let i = 0; i < this.props.users.length; i++) {
@@ -38,15 +40,22 @@ class DashBoard extends React.Component {
                 }
             }
             if (!(CurChat === undefined)) {
+                function findIsStared(element) {
+                    return element.id === CurChat.id;
+                }
                 for (let i = 0; i < this.props.users.length; i++) {
                     if (this.props.users[i].id === CurChat) {
                         CurChat = this.props.users[i];
 
                         //check if stared
-                        if(!(this.props.users[index].stared === undefined)){
+                        if (!(this.props.users[index].stared === undefined)) {
                             StarList = this.props.users[index].stared;
-                            isStared = this.props.users[index].stared.indexOf(CurChat.id) >= 0;
-                            console.log(isStared);
+                            console.log(StarList);
+                            const indx = StarList.findIndex(findIsStared);
+                            if (indx >= 0) {
+                                if (StarList[indx].status) isStared = true;
+                                else isStared = false;
+                            }
                         }
                         break;
                     }
@@ -56,7 +65,7 @@ class DashBoard extends React.Component {
             //if(!(CurChat === undefined)) this.props.AddCurChat(CurChat);
         }
         //const CurChat = this.props.curChat;
-        
+
         const auth = this.props.auth;
         return (
             <div className="login-block dashboard">
@@ -71,6 +80,7 @@ class DashBoard extends React.Component {
                                     <div className="chat-num-messages">{!(this.props.messages === undefined) ? "already " + this.props.messages.contents.length + " messages" : ""}</div>
                                 </div>
                                 <i className="fa fa-star btn-star" id="btn-star" style={isStared ? { color: "rgb(255, 230, 0)" } : {}} onClick={() => {
+
                                     // if(isStared){
                                     //     console.log("change color none !!!!!");
                                     //     $('#btn-star').css("color", "#D8DADF");
@@ -80,9 +90,9 @@ class DashBoard extends React.Component {
                                     //     $('#btn-star').css("color", "rgb(255, 230, 0)");
                                     //     isStared = true;
                                     // }
-                                    
+
                                     return this.props.starUser(CurChat);
-                                    }}></i>
+                                }}></i>
                             </div> : null}
                         </div>
                         <ChatHistory data={{ auth, CurChat }} />
@@ -103,7 +113,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
     firestoreConnect(['users']),
     connect((state, props) => {
-        console.log(state);
+        //console.log(state);
         return ({
             users: state.firestore.ordered.users,
             auth: state.firebase.auth,

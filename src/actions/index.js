@@ -158,29 +158,25 @@ export const starUser = (user) => (dispatch, getState, getFirebase) => {
 
       if (!(data === undefined)) {
         //check if exist
-        var index = data.indexOf(user.id);
+        var index = data.findIndex(x => x.id === user.id);
+
         if (index >= 0) {
           //delete it if exist
-          //data.splice(index, 1);
-          usersRef
-            .update({
-              stared: firebase.firestore.FieldValue.arrayRemove(user.id),
-            });
+          data[index].status = !data[index].status;
+          
         } else {
           //push it in
-          //data = data.concat([ user.id ]);
-          usersRef
-            .update({
-              stared: firebase.firestore.FieldValue.arrayUnion(user.id),
-            });
+          data = data.concat([ {id: user.id, status: true} ]);
+          
         }
       } else {
-        data = [user.id];
-        usersRef
+        data = [{id: user.id, status: true}];
+      }
+
+      usersRef
           .set({
             stared: data,
           }, { merge: true });
-      }
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -189,7 +185,7 @@ export const starUser = (user) => (dispatch, getState, getFirebase) => {
     console.log("Error getting document:", error);
   });
 
-  //return dispatch({type: types.STAR_USER});
+  return dispatch({type: types.STAR_USER});
 };
 
 export const addMessages = (messages) => (dispatch, getState, getFirebase) => {

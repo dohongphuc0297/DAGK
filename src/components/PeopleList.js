@@ -13,11 +13,23 @@ class PeopleList extends React.Component {
                 .sort((a, b) => {
                     //console.log(this.props.data.CurChat);
                     if (!(this.props.data.CurChat === undefined) && !(this.props.data.StarList === undefined)) {
+                        function findIsStaredA(element) {
+                            return element.id === a.id;
+                        };
+                        function findIsStaredB(element) {
+                            return element.id === b.id;
+                        };
                         if (a.id === this.props.data.CurChat.id) return -1;
-                        
+
                         if (b.id === this.props.data.CurChat.id) return 1;
-                        if (this.props.data.StarList.indexOf(a.id) >= 0) return -1;
-                        if (this.props.data.StarList.indexOf(b.id) >= 0) return 1;
+                        const indexA = this.props.data.StarList.findIndex(findIsStaredA);
+                        const indexB = this.props.data.StarList.findIndex(findIsStaredB);
+                        if(indexA>=0){
+                            if (this.props.data.StarList[indexA].status === true) return -1;
+                        }
+                        if(indexB>=0){
+                            if (this.props.data.StarList[indexB].status === false) return 1;
+                        }
                     }
                     return 0;
                 })
@@ -27,8 +39,17 @@ class PeopleList extends React.Component {
                     const status = user.status ? "online" : "offline ";
                     let t = null;
                     let unit = "mins";
-                    const isStar = !(this.props.data.StarList === undefined) ? 
-                        this.props.data.StarList.indexOf(user.id) >= 0 ? true : false : false;
+                    function findIsStared(element) {
+                        return element.id === user.id;
+                    };
+                    let IsStar = false;
+                    if(this.props.data.StarList !== undefined){
+                        const indx = this.props.data.StarList.findIndex(findIsStared);
+                        if(indx >= 0){
+                            if(this.props.data.StarList[indx].status) IsStar = true;
+                        else IsStar = false;
+                        }
+                    }
                     if (status === "offline " && !(user.lastSignOut === undefined)) {
                         t = Math.floor((time - timeSignOut) / 60000);
                         if (t >= 60) {
@@ -64,7 +85,7 @@ class PeopleList extends React.Component {
                         <li className="clearfix li-click" key={index} onClick={() => this.props.addCurChat(user)}>
                             <img src={user.avatarUrl} alt="avatar" />
                             <div className="about">
-                                <div className="name">{user.name} {isStar ? <i className="fa fa-star" id="btn-star" style={{ color: "rgb(255, 230, 0)" }} />: null}</div>
+                                <div className="name">{user.name} {IsStar ? <i className="fa fa-star" id="btn-star" style={{ color: "rgb(255, 230, 0)" }} /> : null}</div>
                                 <div className="status">
                                     <i className={"fa fa-circle " + status}></i> {status} {t ? t + " " + unit + " ago" : null}
                                 </div>
