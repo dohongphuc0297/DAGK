@@ -1,6 +1,12 @@
-//import * as types from "./types";
+import * as types from "./types";
 
-export const fetchUser = (user) => (dispatch, getState, getFirebase) => {
+export const AddCurChat = (user) => (dispatch, getState, getFirebase) => {
+  //console.log("addCur action");
+  //console.log(user);
+  return dispatch({ type: types.ADD_CURCHAT, payload: user });
+};
+
+export const addCurChat = (user) => (dispatch, getState, getFirebase) => {
   //console.log(user);
   const firebase = getFirebase();
   const auth = firebase.auth().currentUser;
@@ -11,6 +17,8 @@ export const fetchUser = (user) => (dispatch, getState, getFirebase) => {
     .set({
       currentChatUser: user.id,
     }, { merge: true });
+    refreshMessages();
+  return dispatch({ type: types.ADD_CURCHAT, payload: user });
 };
 
 export const login = (user) => (dispatch, getState, getFirebase) => {
@@ -18,13 +26,14 @@ export const login = (user) => (dispatch, getState, getFirebase) => {
   const db = firebase.firestore();
   const usersRef = db.collection("users");
   var t = new Date();
-  console.log(t);
+  //console.log(t);
   usersRef
     .doc(user.uid)
     .set({
       status: true,
       lastSignIn: t,
     }, { merge: true });
+  return dispatch({ type: types.LOGIN, payload: user });
 };
 
 export const logout = () => (dispatch, getState, getFirebase) => {
@@ -92,8 +101,10 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
 };
 
 export const sendMessage = (people, message) => (dispatch, getState, getFirebase) => {
-  //console.log(people);
-  //console.log(message);
+  if (people === undefined || message === undefined || people === null || message === null) return;
+
+  console.log(people);
+  console.log(message);
   const firebase = getFirebase();
   const auth = firebase.auth().currentUser;
   const db = firebase.firestore();
@@ -110,26 +121,39 @@ export const sendMessage = (people, message) => (dispatch, getState, getFirebase
     .set({
       owners: [auth.uid, people.id],
     }, { merge: true });
-  db.runTransaction(function (transaction) {
-    return transaction.get(usersRef).then(function (sfDoc) {
-      if (!sfDoc.exists) {
-        throw "Document does not exist!";
-      }
 
-      var data = sfDoc.data().contents;
-      if(!(data === undefined)){
+  usersRef.get().then(function (doc) {
+    if (doc.exists) {
+      //get data
+      var data = doc.data().contents;
+
+      if (!(data === undefined)) {
         data = data.concat([{ sender: auth.uid, content: message, date: t }]);
-      }else{
+      } else {
         data = [{ sender: auth.uid, content: message, date: t }];
       }
-      //console.log(data);
-      transaction.set(usersRef,{
-        contents: data,
-      }, { merge: true });
-    });
-  }).then(function () {
-    //console.log("Transaction successfully committed!");
+      //set database
+      usersRef
+        .set({
+          contents: data,
+        }, { merge: true });
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
   }).catch(function (error) {
-    console.log("Transaction failed: ", error);
+    console.log("Error getting document:", error);
   });
+};
+
+export const addMessages = (messages) => (dispatch, getState, getFirebase) => {
+  return dispatch({type: types.ADD_MESSAGES, payload: messages});
+};
+
+export const refreshMessages = () => (dispatch, getState, getFirebase) => {
+  return dispatch({type: types.REFRESH_MESSAGES});
+};
+
+export const scroll = () => (dispatch, getState, getFirebase) => {
+
 };

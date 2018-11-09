@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { firebaseConnect, isEmpty } from 'react-redux-firebase';
-import {login} from '../actions/index';
 
 const PublicRoute = ({
     firebase,
@@ -13,9 +12,7 @@ const PublicRoute = ({
     ...otherProps
 }) => (
         <Route {...otherProps} component={(props) => {
-            //console.log(auth);
             if (!isEmpty(auth)) {
-                login(auth);
                 return (
                     <Redirect to='/dashboard' />
                 );
