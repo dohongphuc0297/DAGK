@@ -17,7 +17,7 @@ class PeopleList extends React.Component {
         li = ul.getElementsByTagName('li');
         //console.log(li);
         for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
+            a = li[i].getElementsByTagName("span")[0];
             if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
                 li[i].style.display = "";
             } else {
@@ -42,6 +42,8 @@ class PeopleList extends React.Component {
                         if (a.id === this.props.data.CurChat.id) return -1;
 
                         if (b.id === this.props.data.CurChat.id) return 1;
+                        if(a.status) return -1;
+                        if(b.status) return 1;
                         const indexA = this.props.data.StarList.findIndex(findIsStaredA);
                         const indexB = this.props.data.StarList.findIndex(findIsStaredB);
                         if(indexA>=0){
@@ -105,7 +107,7 @@ class PeopleList extends React.Component {
                         <li className="clearfix li-click" key={index} onClick={() => this.props.addCurChat(user)}>
                             <img src={user.avatarUrl!== undefined && user.avatarUrl!== null ? user.avatarUrl : "./default_avatar.png"} alt="avatar" />
                             <div className="about">
-                                <div className="name"><a>{user.name}</a> {IsStar ? <i className="fa fa-star" id="btn-star" style={{ color: "rgb(255, 230, 0)" }} /> : null}</div>
+                                <div className="name"><span>{user.name}</span> {IsStar ? <i className="fa fa-star" id="btn-star" style={{ color: "rgb(255, 230, 0)" }} /> : null}</div>
                                 <div className="status">
                                     <i className={"fa fa-circle " + status}></i> {status} {t ? t + " " + unit + " ago" : null}
                                 </div>
