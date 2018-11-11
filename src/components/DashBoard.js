@@ -76,7 +76,7 @@ class DashBoard extends React.Component {
                                 <img src={CurChat.avatarUrl ? CurChat.avatarUrl : "./default_avatar.png"} alt="avatar" />
                                 <div className="chat-about">
                                     <div className="chat-with">Chat with {CurChat ? CurChat.name : ""}</div>
-                                    <div className="chat-num-messages">{!(this.props.messages === undefined) ? "already " + this.props.messages.contents.length + " messages" : ""}</div>
+                                    <div className="chat-num-messages">{!(this.props.messages === undefined) && !(this.props.messages.contents === undefined) ? "already " + this.props.messages.contents.length + " messages" : ""}</div>
                                 </div>
                                 <i className="fa fa-star btn-star" id="btn-star" style={isStared ? { color: "rgb(255, 230, 0)" } : {}} onClick={() => {
                                     return this.props.starUser(CurChat);

@@ -24,32 +24,24 @@ class ChatHistory extends React.Component {
         }
     }
 
-    componentDidMount(){
-        $("#chatHistory").scroll(function() {
-            if($(this).scrollTop() === 0) {
-                // page++;
-                // isScrolled = true;
-                // console.log(page);
+    componentDidMount() {
+        $("#chatHistory").scroll(function () {
+            if ($(this).scrollTop() === 0) {
+                
             }
         });
-        //this.props.scroll();
-        //this.forceUpdate();
         if (!(this.props.messages === undefined)) {
             if (!(this.props.messages.contents === undefined)) {
-                
+
                 this.props.addMessages(this.props.message);
             }
         }
     }
 
     componentDidUpdate() {
-        // if(isScrolled){
-        //     isScrolled = false;
-        //     return;
-        // }
         if (!(this.props.messages === undefined)) {
             if (!(this.props.messages.contents === undefined)) {
-                $('#chatHistory').scrollTop(91 * this.props.messages.contents.length);
+                $('#chatHistory').scrollTop(91 * this.props.messages.contents.length * 250);
             }
         }
     }
@@ -58,7 +50,6 @@ class ChatHistory extends React.Component {
         var message = null;
         if (!(this.props.messages === undefined)) {
             if (!(this.props.messages.contents === undefined)) {
-                //if(isScrolled) this.setState({page: this.state.page + 1});
                 var messages = this.props.messages.contents;
                 //console.log(messages);
                 message = messages.map((message, index) => {
@@ -73,28 +64,36 @@ class ChatHistory extends React.Component {
                                     <span className="message-data-time" >{t}</span> &nbsp; &nbsp;
                                         <span className="message-data-name" >{this.props.data.auth.displayName}</span> <i className="fa fa-circle me"></i>
                                 </div>
-                                <div className="message my-message float-right">
+                                <div id={"content-message_" + index} className="message my-message float-right">
                                     {message.content}
                                 </div>
+                                <img id={"img-message_" + index} onError={(e) => {
+                                    $("#content-message_" + index).text(message.content);
+                                    $("#img-message_" + index).remove();
+                                }} className="img-message" src={message.content} alt="" />
                             </li>
                         );
                     } else {
                         return (
-                            <li key={index}>
+                            <li className="clearfix" key={index}>
                                 <div className="message-data">
                                     <span className="message-data-name"><i className="fa fa-circle online"></i> {this.props.data.CurChat ? this.props.data.CurChat.name : ""}</span>
                                     <span className="message-data-time">{t}</span>
                                 </div>
-                                <div className="message other-message">
+                                <div id={"content-message_" + index} className="message other-message">
                                     {message.content}
                                 </div>
+                                <img id={"img-message_" + index} onError={(e) => {
+                                    $("#content-message_" + index).text(message.content);
+                                    $("#img-message_" + index).remove();
+                                }} className="img-message" src={message.content} alt="" />
                             </li>
                         );
                     }
                 });
             }
         }
-        
+
         return (
             <div className="chat-history" id="chatHistory">
                 <ul className="ul-data">
@@ -114,7 +113,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
     firestoreConnect((props) => {
         let id = null;
-        if (!(props.data.CurChat === null)&& !(props.data.CurChat === undefined)) {
+        if (!(props.data.CurChat === null) && !(props.data.CurChat === undefined)) {
             if (props.data.auth.uid >= props.data.CurChat.id) {
                 id = props.data.auth.uid + props.data.CurChat.id;
             } else {

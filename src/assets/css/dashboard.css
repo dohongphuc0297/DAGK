@@ -58,6 +58,7 @@ $gray: #92959E; */
   border-radius: 50%;
   border: 3px solid #86BB71;
   margin-right: 10px;
+  width: 50px;
 }
 
 *, *:before, *:after {
@@ -102,6 +103,16 @@ body {
     padding: 20px;
     height: 60vh;
     list-style: none;
+  }
+
+  .img-message{
+    border: none!important;
+    height: 250px!important;
+    border-radius: 0%!important;
+    float: right!important;
+    clear: both;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-right: 30px;
   }
     
     
@@ -210,6 +221,7 @@ body {
       max-width: 60%;
       word-wrap: break-word;
       position: relative;
+      clear: both;
     }
     .message:after {
         bottom: 100%;
