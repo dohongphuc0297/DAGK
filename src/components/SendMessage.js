@@ -8,15 +8,16 @@ const SendMessage = (props) => {
     //console.log(props);
     // event key press enter and shift+enter
     $('#textBox').on('keypress', function (e) {
-        if(e.key === 'Enter'){
-            if(!e.shiftKey){
+        if (e.key === 'Enter') {
+            if (!e.shiftKey) {
                 e.preventDefault();
                 $('#btnSend').trigger('click');
             }
         }
-  });
+    });
     return (
         <div className="chat-message clearfix">
+            <button className="btn-add-image"><img className="add-image" src="./add_image.svg" alt="" /></button>
             <textarea id="textBox" name="message-to-send" ref={node => input = node} placeholder="Type your message" rows="1"></textarea>
             <button onClick={() => {
                 if (!input.value.trim()) {
@@ -32,7 +33,7 @@ const SendMessage = (props) => {
 
 const mapStateToProps = state => {
     return { CurChat: state.reducers.auth.curChat }
-  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
     send: (people, message) => dispatch(sendMessage(people, message))

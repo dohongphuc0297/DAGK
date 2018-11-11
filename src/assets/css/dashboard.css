@@ -107,12 +107,14 @@ body {
 
   .img-message{
     border: none!important;
-    height: 250px!important;
+    max-height: 250px;
+    height: auto!important;
     border-radius: 0%!important;
     float: right!important;
     clear: both;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-right: 30px;
+    max-width: 450px;
   }
     
     
@@ -260,14 +262,23 @@ body {
   .chat-message {
     padding: 30px;
     display: flex;
-    align-items: baseline;
+    align-items: center;
+  }
+
+  .add-image{
+    border: none!important;
+    border-radius: 0%!important;
+  }
+  .btn-add-image{
+    border: none;
+    background: none;
+    margin-right: 10px;
   }
     textarea {
       width: 90%;
       border: none;
       padding: 10px 20px;
       font: 14px/22px "Lato", Arial, sans-serif;
-      margin-bottom: 10px;
       border-radius: 5px;
       resize: none;
       margin-right: 20px;
