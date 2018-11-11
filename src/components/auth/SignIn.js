@@ -14,22 +14,16 @@ const Login = ({ login }) => {
                             <div className="btn-wraper">
                                 <button className="btn btn-lg btn-default"
                                     onClick={login}
-                                ><img style={{height: '30px'}} src="./google_icon.png" alt=""></img> Login With Google</button>
+                                ><img style={{ height: '30px' }} src="./google_icon.png" alt=""></img> Login With Google</button>
                             </div>
                             <div className="copy-text">Created with <i className="fa fa-heart"></i> by <a href="http://grafreez.com">Grafreez.com</a></div>
                         </div>
                         <div className="col-md-8 banner-sec">
-                            <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                                <div className="carousel-inner" role="listbox">
-                                    <div className="carousel-item active">
-                                        <img className="d-block img-fluid" src="https://static.pexels.com/photos/33972/pexels-photo.jpg" alt="First slide"></img>
-                                        <div className="carousel-caption d-none d-md-block">
-                                            <div className="banner-text">
-                                                <h2>Chat App with firebase</h2>
-                                                <p>Chat with your friends just by login wth Goole</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <img className="d-block img-fluid" src="https://static.pexels.com/photos/33972/pexels-photo.jpg" alt="First slide"></img>
+                            <div className="carousel-caption d-none d-md-block">
+                                <div className="banner-text">
+                                    <h2>Chat App with firebase</h2>
+                                    <p>Chat with your friends just by login wth Goole</p>
                                 </div>
                             </div>
                         </div>

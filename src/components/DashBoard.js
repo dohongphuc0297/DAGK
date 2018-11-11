@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../assets/css/dashboard.css';
-//import '../assets/js/dashboard.js';
 import PeopleList from './PeopleList';
 import ChatHistory from './ChatHistory';
 import SendMessage from './SendMessage';
@@ -14,10 +13,8 @@ class DashBoard extends React.Component {
 
     }
     componentDidMount() {
-        //console.log("login");
-        //console.log(this.props);
+        //login khi vào bằng địa chỉ url
         this.props.login(this.props.auth);
-        //console.log("end login");
     }
     componentWillUpdate() {
 
@@ -61,9 +58,7 @@ class DashBoard extends React.Component {
                 }
             }
 
-            //if(!(CurChat === undefined)) this.props.AddCurChat(CurChat);
         }
-        //const CurChat = this.props.curChat;
 
         const auth = this.props.auth;
         return (

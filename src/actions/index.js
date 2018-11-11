@@ -83,7 +83,6 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
   const db = firebase.firestore();
   const usersRef = db.collection("users");
   var t = new Date();
-  console.log(user);
   usersRef
     .doc(user.uid)
     .set({
@@ -163,20 +162,20 @@ export const starUser = (user) => (dispatch, getState, getFirebase) => {
         if (index >= 0) {
           //delete it if exist
           data[index].status = !data[index].status;
-          
+
         } else {
           //push it in
-          data = data.concat([ {id: user.id, status: true} ]);
-          
+          data = data.concat([{ id: user.id, status: true }]);
+
         }
       } else {
-        data = [{id: user.id, status: true}];
+        data = [{ id: user.id, status: true }];
       }
 
       usersRef
-          .set({
-            stared: data,
-          }, { merge: true });
+        .set({
+          stared: data,
+        }, { merge: true });
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -185,7 +184,23 @@ export const starUser = (user) => (dispatch, getState, getFirebase) => {
     console.log("Error getting document:", error);
   });
 
-  return dispatch({type: types.STAR_USER});
+  return dispatch({ type: types.STAR_USER });
+};
+
+export const uploadImage = (user, file) => (dispatch, getState, getFirebase) => {
+  if (user === null || user === undefined) return;
+
+  const firebase = getFirebase();
+  const auth = firebase.auth().currentUser;
+  const storageRef = firebase.storage().ref();
+  const imageRef = storageRef.child(auth.uid + '/' + file.name);
+
+  imageRef.put(file).then(function (snapshot) {
+    snapshot.ref.getDownloadURL().then(function(downloadURL) {
+      dispatch(sendMessage(user, downloadURL));
+    });
+  })
+
 };
 
 export const addMessages = (messages) => (dispatch, getState, getFirebase) => {

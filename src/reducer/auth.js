@@ -4,9 +4,7 @@ const INITIAL_STATE = {
     auth: null,
     messages: [],
     users: [],
-    curChat: null,
-    page: 1,
-    isChange: false
+    curChat: null
 };
 
 export default (state = INITIAL_STATE, action) => {

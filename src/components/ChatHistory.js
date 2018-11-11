@@ -86,7 +86,7 @@ class ChatHistory extends React.Component {
                                 <img id={"img-message_" + index} onError={(e) => {
                                     $("#content-message_" + index).text(message.content);
                                     $("#img-message_" + index).remove();
-                                }} className="img-message" src={message.content} alt="" />
+                                }} className="img-message img-left" src={message.content} alt="" />
                             </li>
                         );
                     }

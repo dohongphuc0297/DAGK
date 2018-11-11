@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { sendMessage } from "../actions/index";
+import { sendMessage, uploadImage } from "../actions/index";
 import $ from 'jquery';
 
 const SendMessage = (props) => {
@@ -17,8 +17,19 @@ const SendMessage = (props) => {
     });
     return (
         <div className="chat-message clearfix">
-            <button className="btn-add-image"><img className="add-image" src="./add_image.svg" alt="" /></button>
-            <textarea id="textBox" name="message-to-send" ref={node => input = node} placeholder="Type your message" rows="1"></textarea>
+            <div className="upload-btn-wrapper">
+                <input id="inputUpload" type="file" name="upload" onChange={(e) => {
+                    e.preventDefault();
+                    let file = e.target.files[0];
+                    props.upload(props.data.CurChat, file);
+                }} accept="image/png, image/jpeg" />
+
+                <button className="btn-add-image" onClick={(e) => {
+                    e.preventDefault();
+                    $('#inputUpload').trigger('click');
+                }}><img className="add-image" src="./add_image.svg" alt="" /></button>
+            </div>
+            <textarea id="textBox" name="message-to-send" ref={node => input = node} placeholder="Type your message (shift + enter to begin a new line)" rows="1"></textarea>
             <button onClick={() => {
                 if (!input.value.trim()) {
                     return
@@ -36,7 +47,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    send: (people, message) => dispatch(sendMessage(people, message))
+    send: (people, message) => dispatch(sendMessage(people, message)),
+    upload: (people, file) => dispatch(uploadImage(people, file))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SendMessage);

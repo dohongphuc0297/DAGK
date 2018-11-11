@@ -4,7 +4,6 @@ import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import { addCurChat } from '../actions/index';
 import $ from 'jquery';
-//var List = require("collections/list");
 
 class PeopleList extends React.Component {
 
