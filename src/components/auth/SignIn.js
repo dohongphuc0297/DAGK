@@ -20,11 +20,6 @@ const Login = ({ login }) => {
                         </div>
                         <div className="col-md-8 banner-sec">
                             <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                                <ol className="carousel-indicators">
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                </ol>
                                 <div className="carousel-inner" role="listbox">
                                     <div className="carousel-item active">
                                         <img className="d-block img-fluid" src="https://static.pexels.com/photos/33972/pexels-photo.jpg" alt="First slide"></img>
