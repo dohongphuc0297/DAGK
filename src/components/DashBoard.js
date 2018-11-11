@@ -49,7 +49,7 @@ class DashBoard extends React.Component {
                         //check if stared
                         if (!(this.props.users[index].stared === undefined)) {
                             StarList = this.props.users[index].stared;
-                            console.log(StarList);
+                            //console.log(StarList);
                             const indx = StarList.findIndex(findIsStared);
                             if (indx >= 0) {
                                 if (StarList[indx].status) isStared = true;
@@ -73,7 +73,7 @@ class DashBoard extends React.Component {
                     <div className="chat">
                         <div className="chat-header clearfix">
                             {CurChat ? <div>
-                                <img src={CurChat ? CurChat.avatarUrl : ""} alt="avatar" />
+                                <img src={CurChat.avatarUrl ? CurChat.avatarUrl : "./default_avatar.png"} alt="avatar" />
                                 <div className="chat-about">
                                     <div className="chat-with">Chat with {CurChat ? CurChat.name : ""}</div>
                                     <div className="chat-num-messages">{!(this.props.messages === undefined) ? "already " + this.props.messages.contents.length + " messages" : ""}</div>

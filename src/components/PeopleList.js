@@ -103,7 +103,7 @@ class PeopleList extends React.Component {
                     }
                     return (
                         <li className="clearfix li-click" key={index} onClick={() => this.props.addCurChat(user)}>
-                            <img src={user.avatarUrl} alt="avatar" />
+                            <img src={user.avatarUrl!== undefined && user.avatarUrl!== null ? user.avatarUrl : "./default_avatar.png"} alt="avatar" />
                             <div className="about">
                                 <div className="name"><a>{user.name}</a> {IsStar ? <i className="fa fa-star" id="btn-star" style={{ color: "rgb(255, 230, 0)" }} /> : null}</div>
                                 <div className="status">
