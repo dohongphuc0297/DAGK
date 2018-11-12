@@ -19,6 +19,7 @@ const SendMessage = (props) => {
         <div className="chat-message clearfix">
             <div className="upload-btn-wrapper">
                 <input id="inputUpload" type="file" name="upload" onChange={(e) => {
+                    //event file change and upload to firebase and send to current chat
                     e.preventDefault();
                     let file = e.target.files[0];
                     
@@ -27,7 +28,7 @@ const SendMessage = (props) => {
                 }} accept="image/png, image/jpeg" />
 
                 <button className="btn-add-image" onClick={(e) => {
-                    //e.preventDefault();
+                    //event click upload image button
                     $('#inputUpload').trigger('click');
                 }}><img className="add-image" src="./add_image.svg" alt="" /></button>
             </div>

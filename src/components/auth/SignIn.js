@@ -1,7 +1,6 @@
 import React from "react";
 import { logIn } from "../../actions/index";
 import { connect } from 'react-redux';
-//import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 const Login = ({ login }) => {
     return (

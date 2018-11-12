@@ -8,7 +8,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-    //console.log(action);
     switch (action.type) {
         case types.ADD_CURCHAT:
             return {
@@ -21,7 +20,6 @@ export default (state = INITIAL_STATE, action) => {
                 messages: state.messages.concat(action.payload)
             };
         case types.LOGIN:
-            //console.log(action);
             return {
                 ...state,
                 auth: action.payload

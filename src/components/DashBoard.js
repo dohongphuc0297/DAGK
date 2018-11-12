@@ -6,18 +6,13 @@ import ChatHistory from './ChatHistory';
 import SendMessage from './SendMessage';
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
-import { login, AddCurChat, starUser } from '../actions/index';
+import { login, starUser } from '../actions/index';
 
 class DashBoard extends React.Component {
-    componentWillMount() {
-
-    }
+    
     componentDidMount() {
         //login khi vào bằng địa chỉ url
         this.props.login(this.props.auth);
-    }
-    componentWillUpdate() {
-
     }
 
     render() {
@@ -26,6 +21,7 @@ class DashBoard extends React.Component {
         let StarList;
         let isStared = false;
 
+        //find current chat
         if (!(this.props.users === undefined)) {
             let index = null;
             for (let i = 0; i < this.props.users.length; i++) {
@@ -89,7 +85,6 @@ class DashBoard extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
     login: (auth) => dispatch(login(auth)),
-    AddCurChat: (user) => dispatch(AddCurChat(user)),
     starUser: (user) => dispatch(starUser(user))
 });
 

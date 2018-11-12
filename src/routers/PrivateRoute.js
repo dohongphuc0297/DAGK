@@ -15,6 +15,7 @@ const PrivateRoute = ({
     ...otherProps
 }) => (
         <Route {...otherProps} component={(props) => {
+            //redirect if login or not
             if (!isEmpty(auth)) {
                 return (
                     <div>
@@ -39,6 +40,6 @@ PrivateRoute.propTypes = {
 }
 
 export default compose(
-    firebaseConnect(), // withFirebase can also be used
+    firebaseConnect(), //connect to firebase to get auth
     connect(({ firebase: { auth } }) => ({ auth }))
 )(PrivateRoute)

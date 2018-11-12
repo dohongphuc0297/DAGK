@@ -7,6 +7,7 @@ import { scroll, addMessages } from "../actions/index";
 
 class ChatHistory extends React.Component {
 
+    //time format hh:mm AM/PM
     getTimeFormat(time) {
         if (time.getHours() >= 12) {
             return ((time.getHours() - 12) >= 10 ? "" : "0") + (time.getHours() - 12) + ":" + (time.getMinutes() >= 10 ? "" : "0") + time.getMinutes() + " PM";
@@ -15,6 +16,7 @@ class ChatHistory extends React.Component {
         }
     }
 
+    //function get time when offline
     getTime(time) {
         const today = new Date();
         if (time.getFullYear() === today.getFullYear() && time.getMonth() === today.getMonth() && time.getDate() === today.getDate()) {
@@ -25,11 +27,6 @@ class ChatHistory extends React.Component {
     }
 
     componentDidMount() {
-        $("#chatHistory").scroll(function () {
-            if ($(this).scrollTop() === 0) {
-
-            }
-        });
         if (!(this.props.messages === undefined)) {
             if (!(this.props.messages.contents === undefined)) {
 
@@ -39,6 +36,7 @@ class ChatHistory extends React.Component {
     }
 
     componentDidUpdate() {
+        //roll to bottom when done render
         if (!(this.props.messages === undefined)) {
             if (!(this.props.messages.contents === undefined)) {
                 $('#chatHistory').scrollTop(this.props.messages.contents.length * 341);
@@ -51,7 +49,7 @@ class ChatHistory extends React.Component {
         if (!(this.props.messages === undefined)) {
             if (!(this.props.messages.contents === undefined)) {
                 var messages = this.props.messages.contents;
-                //console.log(messages);
+                //map message to render
                 message = messages.map((message, index) => {
                     const time = message.date.toDate();
                     let t = null;

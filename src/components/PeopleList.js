@@ -7,6 +7,7 @@ import $ from 'jquery';
 
 class PeopleList extends React.Component {
 
+    //listen to event type to search
     InputListener() {
         var input, filter, ul, li, a, i;
         input = $('#searchInput').val();
@@ -54,8 +55,6 @@ class PeopleList extends React.Component {
                             if (this.props.data.StarList[indexB].status === true) return 1;
                         }
                     }
-
-
                     return 0;
                 })
                 .map((user, index) => {
@@ -106,8 +105,12 @@ class PeopleList extends React.Component {
                             }
                         }
                     }
+
                     return (
-                        <li className="clearfix li-click" key={index} onClick={() => this.props.addCurChat(user)}>
+                        <li className="clearfix li-click" key={index} onClick={() => {
+                            //event click user to chat
+                            this.props.addCurChat(user);
+                        }}>
                             <img src={user.avatarUrl !== undefined && user.avatarUrl !== null ? user.avatarUrl : "./default_avatar.png"} alt="avatar" />
                             <div className="about">
                                 <div className="name"><span>{user.name}</span> {IsStar ? <i className="fa fa-star" id="btn-star" style={{ color: "rgb(255, 230, 0)" }} /> : null}</div>

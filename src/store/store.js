@@ -7,6 +7,7 @@ import { firebaseConfig } from "../firebase/firebase";
 import { reduxFirestore, firestoreReducer } from 'redux-firestore'
 
 export default () => {
+    //firebase init
     firebase.initializeApp(firebaseConfig);
 
     // react-redux-firebase options
@@ -26,6 +27,7 @@ export default () => {
         reactReduxFirebase(firebase, config)
     );
 
+    //combine all reducers
     const rootReducer = combineReducers({
         firebase: firebaseReducer,
         firestore: firestoreReducer,

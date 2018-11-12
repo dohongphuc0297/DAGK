@@ -2,7 +2,6 @@ import * as types from "./types";
 //import 'firebase/functions'
 
 export const AddCurChat = (user) => (dispatch, getState, getFirebase) => {
-  //console.log("addCur action");
   //console.log(user);
   return dispatch({ type: types.ADD_CURCHAT, payload: user });
 };
@@ -18,7 +17,7 @@ export const addCurChat = (user) => (dispatch, getState, getFirebase) => {
     .set({
       currentChatUser: user.id,
     }, { merge: true });
-  refreshMessages();
+    dispatch(refreshMessages());
   return dispatch({ type: types.ADD_CURCHAT, payload: user });
 };
 
@@ -27,31 +26,9 @@ export const login = (user) => (dispatch, getState, getFirebase) => {
   const firebase = getFirebase();
   const db = firebase.firestore();
   const usersRef = db.collection("users");
-  //var t = new Date();
   const realTimeDb = firebase.database();
   const onlineRef = realTimeDb.ref('.info/connected');
-  //const functions = firebase.functions();
 
-  //set up online/offline listener
-  // realTimeDb.ref(`/status/${user.uid}`)
-  //   .onUpdate(event => {
-  //     return event.data.ref.once('value')
-  //       .then(statusSnapshot => statusSnapshot.val())//get latest value from realtime database
-  //       .then(status => {
-  //         //check if the value is 'offline'
-  //         console.log(status);
-  //         if (status === 'offline') {
-  //           var t = new Date();
-  //           usersRef
-  //             .doc(user.uid)
-  //             .set({
-  //               status: false,
-  //               lastSignOut: t,
-  //             }, { merge: true });
-  //         }
-  //       })
-  //   })
-    
   //set up info when login
   onlineRef.on('value', snapshot => {
     realTimeDb.ref(`/status/${user.uid}`).onDisconnect().set('offline')
@@ -77,20 +54,7 @@ export const login = (user) => (dispatch, getState, getFirebase) => {
   return dispatch({ type: types.LOGIN, payload: user });
 };
 
-export const logout = () => (dispatch, getState, getFirebase) => {
-  // const firebase = getFirebase();
-  // const user = firebase.auth().currentUser;
-  // const db = firebase.firestore();
-  // const usersRef = db.collection("users");
-  // var t = new Date();
-  // console.log(t);
-  // usersRef
-  //   .doc(user.uid)
-  //   .set({
-  //     status: false,
-  //     lastSignOut: t,
-  //   }, { merge: true });
-};
+
 
 export const logIn = () => (dispatch, getState, getFirebase) => {
   const firebase = getFirebase();
@@ -107,26 +71,6 @@ export const logIn = () => (dispatch, getState, getFirebase) => {
     .then(result => {
       // user info.
       const user = result.user;
-
-      //set up online/offline listener
-      // exports.onUserStatusChanged = functions.database.ref(`/status/${user.uid}`)
-      //   .onUpdate(event => {
-      //     return event.data.ref.once('value')
-      //       .then(statusSnapshot => statusSnapshot.val())//get latest value from realtime database
-      //       .then(status => {
-      //         //check if the value is 'offline'
-      //         console.log(status);
-      //         if (status === 'offline') {
-      //           var t = new Date();
-      //           usersRef
-      //             .doc(user.uid)
-      //             .set({
-      //               status: false,
-      //               lastSignOut: t,
-      //             }, { merge: true });
-      //         }
-      //       })
-      //   })
 
       //set up info when login
       onlineRef.on('value', snapshot => {
@@ -295,4 +239,8 @@ export const refreshMessages = () => (dispatch, getState, getFirebase) => {
 
 export const scroll = () => (dispatch, getState, getFirebase) => {
 
+};
+
+export const logout = () => (dispatch, getState, getFirebase) => {
+  
 };

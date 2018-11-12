@@ -4,13 +4,7 @@ import SignIn from '../components/auth/SignIn';
 import DashBoard from "../components/DashBoard";
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
-//import {fetchUser} from '../actions/index'
-// import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir,
-//   userIsAuthenticated, userIsNotAuthenticated } from '../auth';
-
 import history from '../history';
-//const Login = userIsNotAuthenticatedRedir(SignIn);
-//const Protected = userIsAuthenticatedRedir(DashBoard);
 
 class App extends Component {
   componentWillUpdate = (props) => {
@@ -27,8 +21,5 @@ class App extends Component {
     );
   }
 }
-// const mapStateToProps = state => ({
-//   user: state.user
-// })
 
 export default App
