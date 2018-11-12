@@ -57,6 +57,7 @@ class ChatHistory extends React.Component {
                     let t = null;
                     t = this.getTime(time);
 
+
                     if (message.sender === this.props.data.auth.uid) {
                         return (
                             <li className="clearfix" key={index}>
@@ -68,7 +69,7 @@ class ChatHistory extends React.Component {
                                     {message.content}
                                 </div>
                                 <img id={"img-message_" + index} onError={(e) => {
-                                    $("#content-message_" + index).text(message.content);
+                                    console.log(index);
                                     $("#img-message_" + index).remove();
                                 }} className="img-message" src={message.content} alt="" />
                             </li>
@@ -84,7 +85,7 @@ class ChatHistory extends React.Component {
                                     {message.content}
                                 </div>
                                 <img id={"img-message_" + index} onError={(e) => {
-                                    $("#content-message_" + index).text(message.content);
+                                    console.log(index);
                                     $("#img-message_" + index).remove();
                                 }} className="img-message img-left" src={message.content} alt="" />
                             </li>
@@ -118,11 +119,11 @@ export default compose(
             } else {
                 id = props.data.CurChat.id + props.data.auth.uid;
             }
-        }
-        return [{ collection: 'messages', doc: id }
-        ]
+            return [{ collection: 'messages', doc: id }]
+        }else return [];
     }),
     connect(({ firestore: { ordered } }, props) => {
+        //console.log(props);
         return ({
             messages: ordered.messages && ordered.messages[0]
         })

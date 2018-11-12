@@ -21,11 +21,13 @@ const SendMessage = (props) => {
                 <input id="inputUpload" type="file" name="upload" onChange={(e) => {
                     e.preventDefault();
                     let file = e.target.files[0];
+                    
                     props.upload(props.data.CurChat, file);
+                    e.target.value = '';
                 }} accept="image/png, image/jpeg" />
 
                 <button className="btn-add-image" onClick={(e) => {
-                    e.preventDefault();
+                    //e.preventDefault();
                     $('#inputUpload').trigger('click');
                 }}><img className="add-image" src="./add_image.svg" alt="" /></button>
             </div>

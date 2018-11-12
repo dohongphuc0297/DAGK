@@ -188,6 +188,7 @@ export const starUser = (user) => (dispatch, getState, getFirebase) => {
 };
 
 export const uploadImage = (user, file) => (dispatch, getState, getFirebase) => {
+  if (file === null || file === undefined) return;
   if (user === null || user === undefined) return;
 
   const firebase = getFirebase();
@@ -195,12 +196,17 @@ export const uploadImage = (user, file) => (dispatch, getState, getFirebase) => 
   const storageRef = firebase.storage().ref();
   const imageRef = storageRef.child(auth.uid + '/' + file.name);
 
-  imageRef.put(file).then(function (snapshot) {
-    snapshot.ref.getDownloadURL().then(function(downloadURL) {
-      dispatch(sendMessage(user, downloadURL));
+  imageRef.getDownloadURL().then(function (downloadURL) {
+    console.log(downloadURL);
+    dispatch(sendMessage(user, downloadURL));
+  }).catch( function (error) {
+    console.log(error);
+    imageRef.put(file).then(function (snapshot) {
+      snapshot.ref.getDownloadURL().then(function (downloadURL) {
+        dispatch(sendMessage(user, downloadURL));
+      });
     });
-  })
-
+  });
 };
 
 export const addMessages = (messages) => (dispatch, getState, getFirebase) => {
