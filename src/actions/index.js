@@ -89,13 +89,13 @@ export const logOut = () => (dispatch, getState, getFirebase) => {
     .set({
       status: false,
       lastSignOut: t,
-    }, { merge: true });
-  firebase.auth()
+    }, { merge: true }).then(()=>{
+      firebase.auth()
     .signOut()
     .then(() => {
       //Sign-out successful.
     })
-    .catch(error => {
+    }).catch(error => {
       console.log(error);
     });
 };
