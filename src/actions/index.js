@@ -1,5 +1,4 @@
 import * as types from "./types";
-//import 'firebase/functions'
 
 export const AddCurChat = (user) => (dispatch, getState, getFirebase) => {
   //console.log(user);
@@ -12,12 +11,14 @@ export const addCurChat = (user) => (dispatch, getState, getFirebase) => {
   const auth = firebase.auth().currentUser;
   const db = firebase.firestore();
   const usersRef = db.collection("users");
+
+  //set current chat
   usersRef
     .doc(auth.uid)
     .set({
       currentChatUser: user.id,
     }, { merge: true });
-    dispatch(refreshMessages());
+  dispatch(refreshMessages());
   return dispatch({ type: types.ADD_CURCHAT, payload: user });
 };
 
@@ -26,30 +27,20 @@ export const login = (user) => (dispatch, getState, getFirebase) => {
   const firebase = getFirebase();
   const db = firebase.firestore();
   const usersRef = db.collection("users");
-  const realTimeDb = firebase.database();
-  const onlineRef = realTimeDb.ref('.info/connected');
 
   //set up info when login
-  onlineRef.on('value', snapshot => {
-    realTimeDb.ref(`/status/${user.uid}`).onDisconnect().set('offline')
-      .then(() => {
-        //time now
-        var t = new Date();
-        //set info for user auth
-        usersRef
-          .doc(user.uid)
-          .set({
-            status: true,
-            name: user.displayName,
-            avatarUrl: user.photoURL,
-            mail: user.email,
-            lastSignIn: t,
-          }, { merge: true });
-
-        //create key in realtime database and set value to online
-        realTimeDb.ref(`/status/${user.uid}`).set('online');
-      })
-  })
+  //time now
+  var t = new Date();
+  //set info for user auth
+  usersRef
+    .doc(user.uid)
+    .set({
+      status: true,
+      name: user.displayName,
+      avatarUrl: user.photoURL,
+      mail: user.email,
+      lastSignIn: t,
+    }, { merge: true });
 
   return dispatch({ type: types.LOGIN, payload: user });
 };
@@ -60,9 +51,7 @@ export const logIn = () => (dispatch, getState, getFirebase) => {
   const firebase = getFirebase();
   const provider = new firebase.auth.GoogleAuthProvider();
   const db = firebase.firestore();
-  const realTimeDb = firebase.database();
   const usersRef = db.collection("users");
-  const onlineRef = realTimeDb.ref('.info/connected');
   //const functions = firebase.functions();
 
   //sign in with google provider
@@ -71,28 +60,18 @@ export const logIn = () => (dispatch, getState, getFirebase) => {
     .then(result => {
       // user info.
       const user = result.user;
-
-      //set up info when login
-      onlineRef.on('value', snapshot => {
-        realTimeDb.ref(`/status/${user.uid}`).onDisconnect().set('offline')
-          .then(() => {
-            //time now
-            var t = new Date();
-            //set info for user auth
-            usersRef
-              .doc(user.uid)
-              .set({
-                status: true,
-                name: user.displayName,
-                avatarUrl: user.photoURL,
-                mail: user.email,
-                lastSignIn: t,
-              }, { merge: true });
-
-            //create key in realtime database and set value to online
-            realTimeDb.ref(`/status/${user.uid}`).set('online');
-          })
-      })
+      //time now
+      var t = new Date();
+      //set info for user auth
+      usersRef
+        .doc(user.uid)
+        .set({
+          status: true,
+          name: user.displayName,
+          avatarUrl: user.photoURL,
+          mail: user.email,
+          lastSignIn: t,
+        }, { merge: true });
     })
     .catch(error => {
       console.log(error);
@@ -242,5 +221,5 @@ export const scroll = () => (dispatch, getState, getFirebase) => {
 };
 
 export const logout = () => (dispatch, getState, getFirebase) => {
-  
+
 };
