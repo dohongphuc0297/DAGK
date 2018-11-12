@@ -69,7 +69,6 @@ class ChatHistory extends React.Component {
                                     {message.content}
                                 </div>
                                 <img id={"img-message_" + index} onError={(e) => {
-                                    console.log(index);
                                     $("#img-message_" + index).remove();
                                 }} className="img-message" src={message.content} alt="" />
                             </li>
@@ -85,7 +84,6 @@ class ChatHistory extends React.Component {
                                     {message.content}
                                 </div>
                                 <img id={"img-message_" + index} onError={(e) => {
-                                    console.log(index);
                                     $("#img-message_" + index).remove();
                                 }} className="img-message img-left" src={message.content} alt="" />
                             </li>

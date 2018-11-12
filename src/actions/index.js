@@ -197,10 +197,8 @@ export const uploadImage = (user, file) => (dispatch, getState, getFirebase) => 
   const imageRef = storageRef.child(auth.uid + '/' + file.name);
 
   imageRef.getDownloadURL().then(function (downloadURL) {
-    console.log(downloadURL);
     dispatch(sendMessage(user, downloadURL));
   }).catch( function (error) {
-    console.log(error);
     imageRef.put(file).then(function (snapshot) {
       snapshot.ref.getDownloadURL().then(function (downloadURL) {
         dispatch(sendMessage(user, downloadURL));
