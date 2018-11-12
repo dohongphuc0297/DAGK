@@ -27,7 +27,7 @@ class ChatHistory extends React.Component {
     componentDidMount() {
         $("#chatHistory").scroll(function () {
             if ($(this).scrollTop() === 0) {
-                
+
             }
         });
         if (!(this.props.messages === undefined)) {
@@ -97,10 +97,9 @@ class ChatHistory extends React.Component {
         return (
             <div className="chat-history" id="chatHistory">
                 <ul className="ul-data">
-                    {message}
+                    {this.props.data.CurChat !== undefined && this.props.data.CurChat !== null ? message : null}
                 </ul>
             </div>
-
         );
     }
 }

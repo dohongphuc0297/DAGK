@@ -26,24 +26,25 @@ class PeopleList extends React.Component {
     }
 
     render() {
-        let users = null;
+        let users = this.props.users;
         if (!(this.props.users === undefined)) {
-            users = this.props.users
+            users = users
                 .sort((a, b) => {
-                    //console.log(this.props.data.CurChat);
-                    if (!(this.props.data.CurChat === undefined) && !(this.props.data.StarList === undefined)) {
+                    if (!(this.props.data.CurChat === undefined)) {
+
+                        if (a.id === this.props.data.CurChat.id) return -1;
+
+                        if (b.id === this.props.data.CurChat.id) return 1;
+                    }
+                    if (!a.status) return 1;
+                    if (!b.status) return -1;
+                    if (!(this.props.data.StarList === undefined)) {
                         function findIsStaredA(element) {
                             return element.id === a.id;
                         };
                         function findIsStaredB(element) {
                             return element.id === b.id;
                         };
-                        if (a.id === this.props.data.CurChat.id) return -1;
-
-                        if (b.id === this.props.data.CurChat.id) return 1;
-                        if (!a.status) return 1;
-                        if (!b.status) return -1;
-
                         const indexA = this.props.data.StarList.findIndex(findIsStaredA);
                         const indexB = this.props.data.StarList.findIndex(findIsStaredB);
                         if (indexA >= 0) {
@@ -52,8 +53,9 @@ class PeopleList extends React.Component {
                         if (indexB >= 0) {
                             if (this.props.data.StarList[indexB].status === true) return 1;
                         }
-                        
                     }
+
+
                     return 0;
                 })
                 .map((user, index) => {
