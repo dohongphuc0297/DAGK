@@ -126,7 +126,7 @@ class PeopleList extends React.Component {
                     <i className="fa fa-search"></i>
                 </div>
                 <ul className="ul-data list" id="ul-list">
-                    {users ? users : null}
+                    {users ? users : <img className="img-loading" src="./loading.gif" id="img-loading" alt="" />}
                 </ul>
             </div>
 

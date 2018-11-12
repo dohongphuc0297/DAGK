@@ -41,7 +41,7 @@ class ChatHistory extends React.Component {
     componentDidUpdate() {
         if (!(this.props.messages === undefined)) {
             if (!(this.props.messages.contents === undefined)) {
-                $('#chatHistory').scrollTop(91 * this.props.messages.contents.length * 250);
+                $('#chatHistory').scrollTop(this.props.messages.contents.length * 341);
             }
         }
     }
@@ -96,7 +96,7 @@ class ChatHistory extends React.Component {
         return (
             <div className="chat-history" id="chatHistory">
                 <ul className="ul-data">
-                    {this.props.data.CurChat !== undefined && this.props.data.CurChat !== null ? message : null}
+                    {this.props.data.CurChat !== undefined && this.props.data.CurChat !== null ? message : <img className="img-loading" src="./loading.gif" id="img-loading" alt="" />}
                 </ul>
             </div>
         );

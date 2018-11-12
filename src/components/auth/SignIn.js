@@ -22,8 +22,8 @@ const Login = ({ login }) => {
                             <img className="d-block img-fluid" src="https://static.pexels.com/photos/33972/pexels-photo.jpg" alt="First slide"></img>
                             <div className="carousel-caption d-none d-md-block">
                                 <div className="banner-text">
-                                    <h2>Chat App with firebase</h2>
-                                    <p>Chat with your friends just by login wth Goole</p>
+                                    <h2>Chat App with Firebase</h2>
+                                    <p>Chat with your friends just by login with Goole</p>
                                 </div>
                             </div>
                         </div>

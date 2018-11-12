@@ -105,6 +105,10 @@ body {
     list-style: none;
   }
 
+  .people-list .ul-data .img-loading{
+    left: 30%;
+  }
+
   .img-message{
     border: none!important;
     max-height: 250px;
@@ -122,7 +126,16 @@ body {
     float: left!important;
   }
     
-    
+  .chat-history .img-loading{
+    left: 50%;
+  }
+
+  .img-loading{
+    border: none!important;
+    border-radius: 0%!important;
+    position: relative;
+  }
+
   .navbar li {
       padding-bottom: 0;
     }

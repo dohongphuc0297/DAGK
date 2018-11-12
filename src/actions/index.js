@@ -31,7 +31,6 @@ export const login = (user) => (dispatch, getState, getFirebase) => {
   const realTimeDb = firebase.database();
   const onlineRef = realTimeDb.ref('.info/connected');
   //const functions = firebase.functions();
-  console.log(firebase);
 
   //set up online/offline listener
   // realTimeDb.ref(`/status/${user.uid}`)
