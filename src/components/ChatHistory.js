@@ -94,7 +94,7 @@ class ChatHistory extends React.Component {
         return (
             <div className="chat-history" id="chatHistory">
                 <ul className="ul-data">
-                    {this.props.data.CurChat !== undefined && this.props.data.CurChat !== null ? message : <img className="img-loading" src="./loading.gif" id="img-loading" alt="" />}
+                    {this.props.data.CurChat !== undefined ? this.props.data.CurChat !== null ? message !== [] ? message !== null ? message : null : <img className="img-loading" src="./loading.gif" id="img-loading" alt="" /> : null : null}
                 </ul>
             </div>
         );
@@ -116,7 +116,7 @@ export default compose(
                 id = props.data.CurChat.id + props.data.auth.uid;
             }
             return [{ collection: 'messages', doc: id }]
-        }else return [];
+        } else return [];
     }),
     connect(({ firestore: { ordered } }, props) => {
         //console.log(props);
